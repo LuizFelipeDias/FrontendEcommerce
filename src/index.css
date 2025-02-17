@@ -1,0 +1,220 @@
+/* Reset Global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.container {
+  width: 100vw;
+  min-height: 100vh;
+  background: rgb(239, 243, 239);
+}
+
+/* ================= HEADER ================= */
+header {
+  background-color: rgb(82, 209, 150);
+  width: 100%;
+  padding: 2rem 1.5rem;
+}
+
+header .inner-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+header .left-side {
+  color: aliceblue;
+}
+
+header .left-side h2 {
+  font-size: 2rem;
+}
+
+header .left-side p {
+  padding-top: 0.8rem;
+  padding-bottom: 1.5rem;
+}
+
+.see-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.see-more-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+}
+
+.see-more-btn span {
+  font-weight: bold;
+}
+
+.see-more-btn svg {
+  font-size: 1rem;
+}
+
+header .right-side img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 920px) {
+  .navbar h1 {
+    font-size: 1.2rem;
+  }
+
+  header .inner-content {
+    gap: 2rem;
+    padding: 1.5rem;
+    padding-top: 3rem;
+  }
+
+  header .left-side h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* ================= PRODUCT LIST ================= */
+.page-inner-content {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  margin-top: 2rem; 
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  justify-content: center;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.product {
+  background: white;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.button {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.8rem;
+  background-color: green;
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: darkgreen;
+}
+
+.price-text{
+  margin-top: 2rem;
+  font-family: system-ui;
+}
+
+.image{
+  margin-top: 1rem;
+}
+
+.product-text{
+  margin-top: 1rem;
+  font-family: system-ui;
+}
+
+/* Container dos botões */
+.info-and-cart {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espaço entre os botões */
+  margin-top: 2rem;
+}
+
+/* Estilização base dos botões */
+.product-info,
+.add-cart {
+  background-color: white; /* Fundo branco */
+  color: black; /* Cor do texto */
+  padding: 10px 15px;
+  border: 2px solid transparent; /* Inicialmente sem borda */
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaço entre ícone e texto */
+  font-weight: bold;
+  min-width: 140px; /* Tamanho mínimo */
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Efeito de borda animada */
+.product-info::before,
+.add-cart::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Ao passar o mouse */
+.product-info:hover::before,
+.add-cart:hover::before {
+  border-color: green; /* Borda verde */
+}
+
+/* Efeito adicional para destacar o botão */
+.product-info:hover,
+.add-cart:hover {
+  transform: scale(1.05); /* Leve aumento */
+}
+
+.out-of-stock {
+  background-color: gray;
+}
+.out-of-stock img {
+  mix-blend-mode: multiply;
+}

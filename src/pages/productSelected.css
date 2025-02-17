@@ -1,0 +1,182 @@
+/* Container principal */
+.product-container {
+  display: flex;
+  flex-direction: row; /* Alinha os itens lado a lado */
+  align-items: flex-start; /* Alinha os itens ao topo */
+  gap: 20px; /* Espaço entre o Swiper e a imagem principal */
+  padding: 20px;
+  max-width: 1200px; /* Largura máxima do container */
+  margin: 0 auto; /* Centraliza o container */
+}
+
+/* Container do Swiper */
+.swiper {
+  width: 100px; /* Largura fixa para o Swiper */
+  height: 450px; /* Altura fixa para o Swiper */
+  overflow-y: auto; /* Permite rolagem vertical */
+  padding: 10px 0; /* Espaçamento interno */
+}
+
+/* Container das imagens dentro do Swiper */
+.swiper-container {
+  display: flex;
+  flex-direction: column; /* Organiza as imagens verticalmente */
+  gap: 8px; /* Espaço entre as miniaturas */
+}
+
+/* Miniaturas das imagens */
+.thumbnail-image {
+  width: 90px; /* Largura fixa para as miniaturas */
+  height: 90px; /* Altura fixa para as miniaturas */
+  object-fit: cover; /* Evita distorção */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de clique */
+  transition: transform 0.2s ease; /* Efeito de hover */
+}
+
+.thumbnail-image:hover {
+  transform: scale(1.05); /* Efeito de destaque ao passar o mouse */
+}
+
+/* Barra de rolagem para o Swiper */
+.swiper::-webkit-scrollbar {
+  width: 6px; /* Largura da barra de rolagem */
+}
+
+.swiper::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Cor da barra de rolagem */
+  border-radius: 4px; /* Bordas arredondadas */
+}
+
+/* Container da imagem principal */
+.product-image-container {
+  flex: 1; /* Ocupa o espaço restante */
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Imagem principal */
+.product-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; /* Bordas arredondadas */
+}
+
+/* Detalhes do produto */
+.product-details {
+  flex: 1; /* Ocupa o espaço restante */
+  max-width: 500px; /* Largura máxima dos detalhes */
+}
+
+/* Título do produto */
+.product-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Preço do produto */
+.product-price {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+/* Botão de adicionar ao carrinho */
+.add-to-cart {
+  padding: 10px 20px;
+  background-color: #000000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background-color: #08ff14; /* Efeito de hover */
+}
+
+.add-to-cart.disabled {
+  background-color: #ccc; /* Estilo quando desabilitado */
+  cursor: not-allowed;
+}
+
+/* Mensagem de erro */
+.cart-error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Descrição do produto */
+.product-description {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-top: 20px;
+}
+
+/* Atributos do produto */
+.product-attributes {
+  margin-bottom: 20px;
+}
+
+.attribute-group {
+  margin-bottom: 15px;
+}
+
+.attribute-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.attribute-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.attribute-button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.attribute-button.selected {
+  border-color: #000;
+  background-color: #f0f0f0;
+}
+
+.attribute-error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.text-out-of-stock{
+  background-color: transparent;
+  color: red;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .product-container {
+    flex-direction: column; /* Alinha os itens verticalmente em telas menores */
+    align-items: center;
+  }
+
+  .swiper {
+    width: 100%; /* Ocupa toda a largura em telas menores */
+    height: auto; /* Altura automática */
+    max-height: 300px; /* Altura máxima */
+  }
+
+  .product-image-container {
+    max-width: 100%; /* Ocupa toda a largura em telas menores */
+  }
+
+  .product-details {
+    max-width: 100%; /* Ocupa toda a largura em telas menores */
+  }
+}
