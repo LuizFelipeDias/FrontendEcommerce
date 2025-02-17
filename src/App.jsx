@@ -1,7 +1,7 @@
 // App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./Components/cart/CartContext"; 
+import { CartProvider } from "./Components/Cart/CartContext"; 
 import Navbar from "./Components/Navbar/Navbar";
 import Product from "./pages/Product";
 import ProductSelected from "./pages/productSelected";
