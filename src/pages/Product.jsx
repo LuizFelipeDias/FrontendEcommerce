@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useCart } from "../Components/cart/CartContext"; // Importe o contexto do carrinho
+import { useCart } from "../Components/Cart/CartContext"; // Importe o contexto do carrinho
 import Header from "../Components/Header/Header"; // Caminho corrigido!
 
 const Product = () => {
