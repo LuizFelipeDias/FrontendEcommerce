@@ -4,7 +4,7 @@ import { faSearch, faCartShopping, faPlus, faMinus, faTimes } from "@fortawesome
 import { Link } from "react-router-dom";
 import { useCart } from "../Cart/CartContext";
 import "./Navbar.css";
-import Logo from "../../assets/logo";
+import Logo from "../../assets/Logo";
 
 const Navbar = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
