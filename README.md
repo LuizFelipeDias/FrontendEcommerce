@@ -2,7 +2,9 @@
 
 ## 1. HOW I DID IT
 - Firstly, in my VS Code, I used this NPM (npm create vite@latest) and chose react + Javascript to create the project. The other thing I used in the beginning was XAMMP, with which I could use features of my backend, like the database in MySQL with the data provided to me in JSON. After that, I downloaded the MySQL Workbench to connect the database with the IP from the frontend. With that while I was capable of doing the things local and was able to connect both sides of the project.
+  
 - After finishing the project, I searched for ways to deploy my backend safely. So to host my database, I used KAMATERA, this server made it possible for me to use MySQL, and it wasn't too expensive. The Second tool was RAILWAY. In this place, I could host my PHP consults. This recurse it's easy to understand how to use, simple to deploy, it works pretty well with GitHub, and allows you to see from a different perspective what you are  doing. To do all this process, I used another repository to put my consults and the connection with my database in KAMATERA.
+  
 - The frontend was more simple, I just used Vercel to host this part, it's free, easy to deploy, and has simple understanding.
 
 ## 2. ATTENDED FEATURES
