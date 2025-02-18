@@ -7,8 +7,8 @@ export function Header() {
         <header>
             <div className='inner-content'>
                 <div className='left-side'>
-                    <h2>Here Your Ecommerce</h2>
-                    <p>Here you will find the products you want, enjoy your time.</p>
+                    <h2>Here Your E-commerce</h2>
+                    <p>Here you will find the products you want.Enjoy your time.</p>
                     <Link to="/all" className='see-more-btn'>
                         <span>See Now</span>
                         <FontAwesomeIcon icon={faChevronRight} />
