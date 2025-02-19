@@ -45,7 +45,7 @@
 
 ## 4. ABOUT THE ORGANIZATTION OF THIS PROJECT
 
-- One repository in this one, here are the frontend.
+- Here are the frontend.
 - The repository backend(https://github.com/LuizFelipeDias/backend) is where this part are hosted. 
 
 
