@@ -2,6 +2,14 @@ import React, { createContext, useContext, useState } from "react";
 
 const CartContext = createContext();
 
+// Custom kebabCase function
+const kebabCase = (str) => {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1-$2') // Convert camelCase to kebab-case
+    .replace(/[\s_]+/g, '-') // Replace spaces and underscores with hyphens
+    .toLowerCase(); // Convert to lowercase
+};
+
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
