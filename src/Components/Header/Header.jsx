@@ -84,24 +84,17 @@ const Header = () => {
                     {item.availableAttributes && (
                       <div className="cart-item-attributes">
                         {Object.entries(item.availableAttributes).map(([groupName, attributes], index) => {
-                          const kebabGroupName = kebabCase(groupName);
                           return (
-                            <div key={index} className="cart-attribute-group" data-testid={`cart-item-attribute-${kebabGroupName}`}>
+                            <div key={index} className="cart-attribute-group">
                               <h4 className="cart-attribute-title">{groupName}:</h4>
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
-                                  const kebabOption = kebabCase(option);
-                                  return (
+                                       return (
                                     <button
                                       key={optIdx}
                                       className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
                                       style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
                                       onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                      data-testid={
-                                        item.attributes[groupName] === option
-                                          ? `cart-item-attribute-${kebabGroupName}-${kebabOption}-selected`
-                                          : `cart-item-attribute-${kebabGroupName}-${kebabOption}`
-                                      }
                                     >
                                       {groupName.toLowerCase() !== "color" && option}
                                     </button>

@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "../Components/Cart/CartContext";
-import kebabCase from "lodash/kebabCase";
 
-// import retirado
 
 
 const Product = () => {
@@ -68,7 +66,6 @@ const Product = () => {
     console.log("Produto adicionado ao carrinho:", cartItem);
   };
 
-  const toKebabCase = (str) => str.toLowerCase().replace(/\s+/g, "-");
 
   return (
     <div>
@@ -80,7 +77,6 @@ const Product = () => {
                 key={product.id}
                 className="product border rounded-lg p-4 shadow-md cursor-pointer relative product-card"
                 onClick={() => handleProductClick(product)}
-                data-testid={`product-${toKebabCase(product.name)}`}
               >
                 <div className={`image ${product.in_stock === 0 ? "out-of-stock" : ""}`}>
                   {product.images?.length > 0 ? (
