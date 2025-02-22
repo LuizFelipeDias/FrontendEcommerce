@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from 'swiper/react'; // Import Swiper and SwiperSlide
 import 'swiper/css'; // Basic Swiper styles
-import { kebabCase } from "lodash";
 
 
 const ProductSelected = () => {
@@ -16,9 +15,9 @@ const ProductSelected = () => {
   const { addToCart } = useCart();
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [isAllAttributesSelected, setIsAllAttributesSelected] = useState(false);
-  const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300"); // State for the main image
+  const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300"); // Estado para a imagem principal
 
-  // Check if all attributes are selected
+  // Verifica se todos os atributos foram selecionados
   useEffect(() => {
     if (product?.attributes) {
       const allSelected = product.attributes.every(
@@ -28,7 +27,7 @@ const ProductSelected = () => {
     }
   }, [selectedAttributes, product]);
 
-  // Function to select attributes
+  // Função para selecionar atributos
   const handleSelectAttribute = (name, value) => {
     setSelectedAttributes((prev) => ({
       ...prev,
@@ -36,17 +35,17 @@ const ProductSelected = () => {
     }));
   };
 
-  // Function to add to cart
+  // Função para adicionar ao carrinho
   const handleAddToCart = () => {
     if (!product || !isAllAttributesSelected) return;
 
-    // Generate uniqueId based on selected attributes
+    // Gera o uniqueId com base nos atributos selecionados
     const uniqueId = `${product.id}-${Object.entries(selectedAttributes)
-      .sort((a, b) => a[0].localeCompare(b[0])) // Sort attributes by name
-      .map(([key, value]) => `${key}:${value}`) // Format as "name:value"
-      .join("-")}`; // Join with "-"
+      .sort((a, b) => a[0].localeCompare(b[0])) // Ordena os atributos por nome
+      .map(([key, value]) => `${key}:${value}`) // Formata como "nome:valor"
+      .join("-")}`; // Junta tudo com "-"
 
-    // Create an object with available attributes
+    // Cria um objeto com os atributos disponíveis
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
@@ -57,37 +56,38 @@ const ProductSelected = () => {
       id: product.id,
       uniqueId,
       name: product.name,
-      image: mainImage, // Use the current main image
+      image: mainImage, // Usa a imagem principal atual
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes }, // Copy selected attributes
-      availableAttributes, // Include available attributes
+      attributes: { ...selectedAttributes }, // Copia os atributos selecionados
+      availableAttributes, // Inclui os atributos disponíveis
       quantity: 1,
     };
 
     addToCart(cartItem);
-    console.log("Product added to cart:", cartItem);
+    console.log("Produto adicionado ao carrinho:", cartItem);
   };
 
-  // Group attributes by name
+  // Agrupa atributos pelo nome
   const groupedAttributes = product?.attributes?.reduce((acc, attr) => {
     (acc[attr.name] = acc[attr.name] || []).push(attr);
     return acc;
   }, {});
 
-  // Function to change the main image
+  // Função para trocar a imagem principal
   const handleThumbnailClick = (image) => {
     setMainImage(image);
   };
 
   return (
     <div className="product-container">
-      <div className="swiper" data-testid="product-gallery">
+      <div className="swiper">
         <Swiper
-          direction="vertical" // Set vertical direction
-          slidesPerView={5} // Display 5 slides at once
-          spaceBetween={12} // Space between slides
+          direction="vertical" // Define a direção vertical
+          slidesPerView={5} // Exibe 5 slides por vez
+          spaceBetween={12} // Espaço entre os slides
           className="swiper-container"
+          
         >
           {product?.images?.map((image, index) => (
             <SwiperSlide key={index}>
@@ -95,7 +95,7 @@ const ProductSelected = () => {
                 src={image}
                 alt={`Thumbnail ${index + 1}`}
                 className="thumbnail-image"
-                onClick={() => handleThumbnailClick(image)} // Change main image on click
+                onClick={() => handleThumbnailClick(image)} // Troca a imagem principal ao clicar
               />
             </SwiperSlide>
           ))}
@@ -104,7 +104,7 @@ const ProductSelected = () => {
       <div className="product-image-container">
         <img
           className="product-image"
-          src={mainImage} // Use the current main image
+          src={mainImage} // Usa a imagem principal atual
           alt={product?.name}
         />
       </div>
@@ -113,7 +113,7 @@ const ProductSelected = () => {
         <h2 className="product-title">{product?.name}</h2>
         <div className="product-attributes">
           {Object.entries(groupedAttributes || {}).map(([name, attributes], index) => (
-            <div key={index} className="attribute-group" data-testid={`product-attribute-${kebabCase(name)}`}>
+            <div key={index} className="attribute-group">
               <h4 className="attribute-title">{name}:</h4>
               <div className="attribute-buttons">
                 {attributes.map((attr, idx) => (
@@ -146,7 +146,6 @@ const ProductSelected = () => {
               className={`add-to-cart ${!isAllAttributesSelected ? "disabled" : ""}`}
               onClick={handleAddToCart}
               disabled={!isAllAttributesSelected}
-              data-testid="add-to-cart"
             >
               ADD TO CART <FontAwesomeIcon icon={faCartShopping} /> <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -158,8 +157,8 @@ const ProductSelected = () => {
           <p className="text-out-of-stock">This product is out of stock.</p>
         )}
         
-        <p className="product-description" data-testid="product-description">
-          {product?.description || "No description available."}
+        <p className="product-description">
+          {product?.description || "Nenhuma descrição disponível."}
         </p>
       </div>
     </div>
