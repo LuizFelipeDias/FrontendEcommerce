@@ -88,7 +88,7 @@ const Header = () => {
       </nav>
 
       <div className="cart-container">
-        <button onClick={handleCartClick} disabled={cartItems.length === 0} className="cart-btn" data-testid="cart-btn">
+        <button onClick={handleCartClick} className="cart-btn" data-testid="cart-btn">
           <FontAwesomeIcon icon={faCartShopping} className="cart" />
           <div className="products-count">{cartItems.length}</div>
         </button>
