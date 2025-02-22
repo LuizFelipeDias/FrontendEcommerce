@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { useCart } from "../Components/CartTest/CartContext";
+import { useCart } from "../Components/Cart/CartContext";
 import "./productSelected.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
