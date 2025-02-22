@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "../Components/Cart/CartContext";
+import kebabCase from "lodash/kebabCase";
+
 // import retirado
 
 

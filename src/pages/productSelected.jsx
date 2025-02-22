@@ -4,9 +4,9 @@ import { useCart } from "../Components/Cart/CartContext";
 import "./productSelected.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Swiper, SwiperSlide } from 'swiper/react'; // Importe Swiper e SwiperSlide
-import 'swiper/css'; // Estilos básicos do Swiper
-
+import { Swiper, SwiperSlide } from 'swiper/react'; // Import Swiper and SwiperSlide
+import 'swiper/css'; // Basic Swiper styles
+import kebabCase from "lodash/kebabCase"; // Correct import for kebabCase
 
 const ProductSelected = () => {
   const { id } = useParams();
@@ -15,9 +15,9 @@ const ProductSelected = () => {
   const { addToCart } = useCart();
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [isAllAttributesSelected, setIsAllAttributesSelected] = useState(false);
-  const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300"); // Estado para a imagem principal
+  const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300"); // State for the main image
 
-  // Verifica se todos os atributos foram selecionados
+  // Check if all attributes are selected
   useEffect(() => {
     if (product?.attributes) {
       const allSelected = product.attributes.every(
@@ -27,7 +27,7 @@ const ProductSelected = () => {
     }
   }, [selectedAttributes, product]);
 
-  // Função para selecionar atributos
+  // Function to select attributes
   const handleSelectAttribute = (name, value) => {
     setSelectedAttributes((prev) => ({
       ...prev,
@@ -35,17 +35,17 @@ const ProductSelected = () => {
     }));
   };
 
-  // Função para adicionar ao carrinho
+  // Function to add to cart
   const handleAddToCart = () => {
     if (!product || !isAllAttributesSelected) return;
 
-    // Gera o uniqueId com base nos atributos selecionados
+    // Generate uniqueId based on selected attributes
     const uniqueId = `${product.id}-${Object.entries(selectedAttributes)
-      .sort((a, b) => a[0].localeCompare(b[0])) // Ordena os atributos por nome
-      .map(([key, value]) => `${key}:${value}`) // Formata como "nome:valor"
-      .join("-")}`; // Junta tudo com "-"
+      .sort((a, b) => a[0].localeCompare(b[0])) // Sort attributes by name
+      .map(([key, value]) => `${key}:${value}`) // Format as "name:value"
+      .join("-")}`; // Join with "-"
 
-    // Cria um objeto com os atributos disponíveis
+    // Create an object with available attributes
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
@@ -56,25 +56,25 @@ const ProductSelected = () => {
       id: product.id,
       uniqueId,
       name: product.name,
-      image: mainImage, // Usa a imagem principal atual
+      image: mainImage, // Use the current main image
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes }, // Copia os atributos selecionados
-      availableAttributes, // Inclui os atributos disponíveis
+      attributes: { ...selectedAttributes }, // Copy selected attributes
+      availableAttributes, // Include available attributes
       quantity: 1,
     };
 
     addToCart(cartItem);
-    console.log("Produto adicionado ao carrinho:", cartItem);
+    console.log("Product added to cart:", cartItem);
   };
 
-  // Agrupa atributos pelo nome
+  // Group attributes by name
   const groupedAttributes = product?.attributes?.reduce((acc, attr) => {
     (acc[attr.name] = acc[attr.name] || []).push(attr);
     return acc;
   }, {});
 
-  // Função para trocar a imagem principal
+  // Function to change the main image
   const handleThumbnailClick = (image) => {
     setMainImage(image);
   };
@@ -83,9 +83,9 @@ const ProductSelected = () => {
     <div className="product-container">
       <div className="swiper" data-testid="product-gallery">
         <Swiper
-          direction="vertical" // Define a direção vertical
-          slidesPerView={5} // Exibe 5 slides por vez
-          spaceBetween={12} // Espaço entre os slides
+          direction="vertical" // Set vertical direction
+          slidesPerView={5} // Display 5 slides at once
+          spaceBetween={12} // Space between slides
           className="swiper-container"
         >
           {product?.images?.map((image, index) => (
@@ -94,7 +94,7 @@ const ProductSelected = () => {
                 src={image}
                 alt={`Thumbnail ${index + 1}`}
                 className="thumbnail-image"
-                onClick={() => handleThumbnailClick(image)} // Troca a imagem principal ao clicar
+                onClick={() => handleThumbnailClick(image)} // Change main image on click
               />
             </SwiperSlide>
           ))}
@@ -103,7 +103,7 @@ const ProductSelected = () => {
       <div className="product-image-container">
         <img
           className="product-image"
-          src={mainImage} // Usa a imagem principal atual
+          src={mainImage} // Use the current main image
           alt={product?.name}
         />
       </div>
@@ -112,7 +112,7 @@ const ProductSelected = () => {
         <h2 className="product-title">{product?.name}</h2>
         <div className="product-attributes">
           {Object.entries(groupedAttributes || {}).map(([name, attributes], index) => (
-            <div key={index} className="attribute-group" data-testid={`product-attribute-${name.toLowerCase().replace(/\s+/g, '-')}`}>
+            <div key={index} className="attribute-group" data-testid={`product-attribute-${kebabCase(name)}`}>
               <h4 className="attribute-title">{name}:</h4>
               <div className="attribute-buttons">
                 {attributes.map((attr, idx) => (
@@ -158,7 +158,7 @@ const ProductSelected = () => {
         )}
         
         <p className="product-description" data-testid="product-description">
-          {product?.description || "Nenhuma descrição disponível."}
+          {product?.description || "No description available."}
         </p>
       </div>
     </div>
