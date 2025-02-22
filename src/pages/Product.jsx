@@ -101,7 +101,7 @@ const Product = () => {
 
                 {product.in_stock > 0 && (
                   <button
-                    className="quick-shop-btn"
+                    className="cart-btn"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleAddToCart(product);
