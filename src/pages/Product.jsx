@@ -42,6 +42,13 @@ const Product = () => {
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([key, value]) => `${key}:${value}`)
       .join("-")}`;
+    
+    // Cria um objeto com os atributos disponíveis
+    const availableAttributes = product.attributes?.reduce((acc, attr) => {
+      acc[attr.name] = acc[attr.name] || [];
+      acc[attr.name].push(attr.value);
+      return acc;
+    }, {});
 
     const cartItem = {
       id: product.id,
@@ -50,11 +57,13 @@ const Product = () => {
       image: product.images?.[0] || "https://via.placeholder.com/300",
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes },
+      attributes: { ...selectedAttributes }, // Copia os atributos selecionados
+      availableAttributes, // Inclui os atributos disponíveis
       quantity: 1,
     };
 
     addToCart(cartItem);
+    console.log("Produto adicionado ao carrinho:", cartItem);
   };
 
   const toKebabCase = (str) => str.toLowerCase().replace(/\s+/g, "-");
