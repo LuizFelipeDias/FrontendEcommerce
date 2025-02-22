@@ -91,7 +91,7 @@
 
 /* Estilização base dos botões */
 .product-info,
-.cart-btn {
+.quick-buy-btn {
   background-color: white; /* Fundo branco */
   color: black; /* Cor do texto */
   padding: 10px 15px;
@@ -111,7 +111,7 @@
 
 /* Efeito de borda animada */
 .product-info::before,
-.cart-btn::before {
+.quick-buy-btn::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -122,13 +122,13 @@
 
 /* Ao passar o mouse */
 .product-info:hover::before,
-.cart-btn:hover::before {
+.quick-buy-btn:hover::before {
   border-color: green; /* Borda verde */
 }
 
 /* Efeito adicional para destacar o botão */
 .product-info:hover,
-.cart-btn:hover {
+.quick-buy-btn:hover {
   transform: scale(1.05); /* Leve aumento */
 }
 
