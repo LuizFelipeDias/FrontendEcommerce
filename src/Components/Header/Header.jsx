@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faCartShopping, faPlus, faMinus, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../Cart/CartContext";
 import "./Header.css";
 import Logo from "../../assets/Logo";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
+  const location = useLocation();
 
   const handleCartClick = () => {
     setIsCartOpen(!isCartOpen);
@@ -17,9 +17,9 @@ const Header = () => {
 
   const handleQuantityChange = (uniqueId, newQuantity) => {
     if (newQuantity < 1) {
-      removeFromCart(uniqueId); // Remove o produto se a quantidade for menor que 1
+      removeFromCart(uniqueId);
     } else {
-      updateCartItemQuantity(uniqueId, newQuantity); // Atualiza a quantidade
+      updateCartItemQuantity(uniqueId, newQuantity);
     }
   };
 
@@ -30,15 +30,13 @@ const Header = () => {
         ...item.attributes,
         [attributeName]: newValue,
       };
-      updateCartItemAttributes(uniqueId, updatedAttributes); // Atualiza apenas os atributos
+      updateCartItemAttributes(uniqueId, updatedAttributes);
     }
   };
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
-
-  const location = useLocation();
 
   return (
     <div className="header">
@@ -50,12 +48,26 @@ const Header = () => {
 
       <nav>
         <ul>
-          <li><Link to="/" data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}>Home</Link></li>
-          <li><Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>all</Link></li>
-          <li><Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>clothes</Link></li>
-          <li><Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>tech</Link></li>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>
+              all
+            </Link>
+          </li>
+          <li>
+            <Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>
+              clothes
+            </Link>
+          </li>
+          <li>
+            <Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>
+              tech
+            </Link>
+          </li>
         </ul>
-    </nav>
+      </nav>
 
       <div className="cart-container">
         <button onClick={handleCartClick} disabled={cartItems.length === 0}>
@@ -74,17 +86,21 @@ const Header = () => {
                 <div key={index} className="cart-item-container">
                   <div className="cart-item-details">
                     <p className="cart-item-name">{item.name}</p>
-                    <p className="cart-item-price">{item.price} {item.currency}</p>
+                    <p className="cart-item-price">
+                      {item.price} {item.currency}
+                    </p>
                     {item.availableAttributes && (
                       <div className="cart-item-attributes">
-                        {Object.entries(item.availableAttributes).map(([groupName, attributes], index) => (
-                          <div key={index} className="cart-attribute-group">
+                        {Object.entries(item.availableAttributes).map(([groupName, attributes], attrIndex) => (
+                          <div key={attrIndex} className="cart-attribute-group">
                             <h4 className="cart-attribute-title">{groupName}:</h4>
                             <div className="cart-attribute-buttons">
                               {attributes.map((option, optIdx) => (
                                 <button
                                   key={optIdx}
-                                  className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
+                                  className={`cart-attribute-button ${
+                                    item.attributes[groupName] === option ? "selected" : ""
+                                  }`}
                                   style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
                                   onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
                                 >
@@ -100,17 +116,17 @@ const Header = () => {
                   <div className="add-and-remove-cart">
                     <div className="cart-item-quantity">
                       <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)}>
-                        <FontAwesomeIcon icon={faPlus} className="add"/>
+                        <FontAwesomeIcon icon={faPlus} className="add" />
                       </button>
                       <input
-                        className="input-quntity"
+                        className="input-quantity"
                         type="number"
                         value={item.quantity}
                         min="1"
                         onChange={(e) => handleQuantityChange(item.uniqueId, parseInt(e.target.value))}
                       />
                       <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)}>
-                        <FontAwesomeIcon icon={faMinus}/>
+                        <FontAwesomeIcon icon={faMinus} />
                       </button>
                     </div>
                   </div>
