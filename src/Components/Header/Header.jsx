@@ -38,6 +38,8 @@ const Header = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
 
+  const location = useLocation();
+
   return (
     <div className="header">
       <div className={`overlay ${isCartOpen ? "active" : ""}`} onClick={handleCartClick}></div>
@@ -48,12 +50,12 @@ const Header = () => {
 
       <nav>
         <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>ALL</Link></li>
-          <li><Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>CLOTHES</Link></li>
-          <li><Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>TECH</Link></li>
+          <li><Link to="/" data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}>Home</Link></li>
+          <li><Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>all</Link></li>
+          <li><Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>clothes</Link></li>
+          <li><Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>tech</Link></li>
         </ul>
-      </nav>
+    </nav>
 
       <div className="cart-container">
         <button onClick={handleCartClick} disabled={cartItems.length === 0}>
