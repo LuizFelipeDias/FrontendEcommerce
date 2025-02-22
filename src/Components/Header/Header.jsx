@@ -16,13 +16,9 @@ const Header = () => {
   }, [location.pathname]);
 
   const handleCartClick = () => {
-    if (isCartOpen) {
-      setIsCartOpen(false);
-      setTimeout(() => setIsCartOpen(true), 300); // Pequeno delay para garantir que o overlay desapareça antes de abrir novamente
-    } else {
-      setIsCartOpen(true);
-    }
+    setIsCartOpen((prevState) => !prevState);
   };
+  
   
 
   const handleQuantityChange = (uniqueId, newQuantity) => {
