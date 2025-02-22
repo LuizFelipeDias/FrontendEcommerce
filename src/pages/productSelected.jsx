@@ -7,6 +7,7 @@ import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from 'swiper/react'; // Importe Swiper e SwiperSlide
 import 'swiper/css'; // Estilos básicos do Swiper
 
+
 const ProductSelected = () => {
   const { id } = useParams();
   const location = useLocation();
