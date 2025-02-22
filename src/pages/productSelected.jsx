@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { useCart } from "../Components/Cart/CartContext";
+import { useCart } from "../Components/cart/CartContext";
 import "./productSelected.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -80,13 +80,12 @@ const ProductSelected = () => {
 
   return (
     <div className="product-container">
-      <div className="swiper">
+      <div className="swiper" data-testid="product-gallery">
         <Swiper
           direction="vertical" // Define a direção vertical
           slidesPerView={5} // Exibe 5 slides por vez
           spaceBetween={12} // Espaço entre os slides
           className="swiper-container"
-          
         >
           {product?.images?.map((image, index) => (
             <SwiperSlide key={index}>
@@ -112,7 +111,7 @@ const ProductSelected = () => {
         <h2 className="product-title">{product?.name}</h2>
         <div className="product-attributes">
           {Object.entries(groupedAttributes || {}).map(([name, attributes], index) => (
-            <div key={index} className="attribute-group">
+            <div key={index} className="attribute-group" data-testid={`product-attribute-${name.toLowerCase().replace(/\s+/g, '-')}`}>
               <h4 className="attribute-title">{name}:</h4>
               <div className="attribute-buttons">
                 {attributes.map((attr, idx) => (
@@ -145,6 +144,7 @@ const ProductSelected = () => {
               className={`add-to-cart ${!isAllAttributesSelected ? "disabled" : ""}`}
               onClick={handleAddToCart}
               disabled={!isAllAttributesSelected}
+              data-testid="add-to-cart"
             >
               ADD TO CART <FontAwesomeIcon icon={faCartShopping} /> <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -156,7 +156,7 @@ const ProductSelected = () => {
           <p className="text-out-of-stock">This product is out of stock.</p>
         )}
         
-        <p className="product-description">
+        <p className="product-description" data-testid="product-description">
           {product?.description || "Nenhuma descrição disponível."}
         </p>
       </div>

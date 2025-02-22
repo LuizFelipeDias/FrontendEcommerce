@@ -1,4 +1,4 @@
-.navbar {
+.header {
     width: 100%;
     display: flex;
     align-items: center;
@@ -12,20 +12,20 @@
     font-size: 3em;
     color: white; /* Cor interna do texto */
     -webkit-text-stroke-width: 2px; /* Largura da borda */
-    -webkit-text-stroke-color: rgb(82, 209, 150); /* Cor verde na borda */
+    -webkit-text-stroke-color: #00ff00; /* Cor verde na borda */
     font-weight: bold;
     letter-spacing: 2px;
 }
 
-/* Estilizando a navegação */
-nav ul {
+/* Estilizando a header */
+header ul {
     flex: 1;
     list-style: none;
     text-align: center;
     padding: 0;
 }
 
-nav ul li {
+header ul li {
     display: inline-block;
     margin: 10px 20px;
     font-size: 18px;
@@ -33,7 +33,7 @@ nav ul li {
 }
 
 /* Estilizando os links */
-nav ul li a {
+header ul li a {
     text-decoration: none;
     color: black;
     padding: 5px 10px;
@@ -41,7 +41,7 @@ nav ul li a {
 }
 
 /* Criando a linha que aparece ao passar o mouse */
-nav ul li::after {
+header ul li::after {
     content: "";
     width: 0;
     height: 3px;
@@ -54,7 +54,7 @@ nav ul li::after {
 }
 
 /* Linha aparece ao passar o mouse */
-nav ul li:hover::after {
+header ul li:hover::after {
     width: 100%;
 }
 
@@ -106,14 +106,14 @@ button{
 }
 
 /* Container dos ícones */
-.navbar-icon-container {
+.header-icon-container {
     display: flex;
     align-items: center;
     position: relative; /* Mantém a estrutura alinhada */
 }
 
 /* Ícone do carrinho */
-.navbar-icon-container .shopping-cart {
+.header-icon-container .shopping-cart {
     background: transparent;
     cursor: pointer;
     font-size: 24px; /* Ajuste para o tamanho do ícone */
@@ -122,7 +122,7 @@ button{
 }
 
 /* Contador de produtos no carrinho */
-.navbar-icon-container .shopping-cart .products-count {
+.header-icon-container .shopping-cart .products-count {
     position: absolute;
     top: -5px;  /* Ajuste fino para centralizar no ícone */
     right: -10px; /* Move o círculo vermelho para a direita */
@@ -437,13 +437,13 @@ button{
 
 /* Responsividade */
 @media screen and (max-width: 768px) {
-    .navbar {
+    .header {
         flex-direction: column;
         height: auto;
         padding: 1rem;
     }
 
-    .navbar .nav-links {
+    .header .header-links {
         flex-direction: column;
         align-items: center;
         gap: 1rem;
@@ -470,13 +470,13 @@ button{
 
 /* Responsividade */
 @media screen and (max-width: 768px) {
-    .navbar {
+    .header {
       flex-direction: column;
       height: auto;
       padding: 1rem;
     }
   
-    .navbar .nav-links {
+    .header .header-links {
       flex-direction: column;
       align-items: center;
       gap: 1rem;

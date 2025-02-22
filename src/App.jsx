@@ -1,8 +1,8 @@
 // App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./Components/Cart/CartContext"; 
-import Navbar from "./Components/Navbar/Navbar";
+import { CartProvider } from "./Components/cart/CartContext"; 
+import Header from "./Components/Header/Header";
 import Product from "./pages/Product";
 import ProductSelected from "./pages/productSelected";
 import All from "./pages/all";
@@ -14,7 +14,7 @@ const App = () => {
     <CartProvider> {/* Envolve a aplicação com o CartProvider */}
       <Router>
         <div className="container">
-          <Navbar />
+          <Header />
           <main>
             <Routes>
               <Route path="/" element={<Product />} />
