@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faPlus, faMinus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { CartContext, CartProvider } from "../Cart/CartContext";  
+import { CartContext} from "../Cart/CartContext";  
 import "./Header.css";
 import Logo from "../../assets/Logo";
 
