@@ -18,14 +18,14 @@
 }
 
 /* Estilizando a header */
-header ul {
+nav ul {
     flex: 1;
     list-style: none;
     text-align: center;
     padding: 0;
 }
 
-header ul li {
+nav ul li {
     display: inline-block;
     margin: 10px 20px;
     font-size: 18px;
@@ -33,7 +33,7 @@ header ul li {
 }
 
 /* Estilizando os links */
-header ul li a {
+nav ul li a {
     text-decoration: none;
     color: black;
     padding: 5px 10px;
@@ -41,7 +41,7 @@ header ul li a {
 }
 
 /* Criando a linha que aparece ao passar o mouse */
-header ul li::after {
+nav ul li::after {
     content: "";
     width: 0;
     height: 3px;
@@ -54,7 +54,7 @@ header ul li::after {
 }
 
 /* Linha aparece ao passar o mouse */
-header ul li:hover::after {
+nav ul li:hover::after {
     width: 100%;
 }
 
