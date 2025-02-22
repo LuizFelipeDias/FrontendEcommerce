@@ -16,8 +16,14 @@ const Header = () => {
   }, [location.pathname]);
 
   const handleCartClick = () => {
-    setIsCartOpen(!isCartOpen);
+    if (isCartOpen) {
+      setIsCartOpen(false);
+      setTimeout(() => setIsCartOpen(true), 300); // Pequeno delay para garantir que o overlay desapareça antes de abrir novamente
+    } else {
+      setIsCartOpen(true);
+    }
   };
+  
 
   const handleQuantityChange = (uniqueId, newQuantity) => {
     if (newQuantity < 1) {
@@ -93,7 +99,7 @@ const Header = () => {
           <div className="products-count">{cartItems.length}</div>
         </button>
 
-        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay"  style={{ pointerEvents: isCartOpen ? "auto" : "none" }}> 
+        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOpen ? "auto" : "none" }}> 
           <button className="close-modal" onClick={handleCartClick}>
             <FontAwesomeIcon icon={faTimes} />
           </button>

@@ -337,6 +337,7 @@ button{
 
 .overlay.active {
     display: block;
+    pointer-events: none; /* Evita que o overlay bloqueie cliques */
 }
 
 .cart-close {
