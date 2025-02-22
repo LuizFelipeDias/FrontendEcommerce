@@ -93,7 +93,7 @@ const Header = () => {
           <div className="products-count">{cartItems.length}</div>
         </button>
 
-        <div className={`cart-modal ${isCartOpen ? "active" : ""}`}>
+        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay">
           <button className="close-modal" onClick={handleCartClick}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
