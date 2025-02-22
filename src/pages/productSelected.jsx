@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from 'swiper/react'; // Import Swiper and SwiperSlide
 import 'swiper/css'; // Basic Swiper styles
-import kebabCase from "lodash/kebabCase"; // Correct import for kebabCase
+import { kebabCase } from "lodash";
+
 
 const ProductSelected = () => {
   const { id } = useParams();
