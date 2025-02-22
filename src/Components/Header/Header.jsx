@@ -49,16 +49,9 @@ const Header = () => {
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li className="dropdown" onMouseEnter={() => setIsDropdownOpen(true)} onMouseLeave={() => setIsDropdownOpen(false)}>
-            <span>Categories</span>
-            {isDropdownOpen && (
-              <ul className="dropdown-menu">
-                <li><Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>ALL</Link></li>
-                <li><Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>CLOTHES</Link></li>
-                <li><Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>TECH</Link></li>
-              </ul>
-            )}
-          </li>
+          <li><Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>ALL</Link></li>
+          <li><Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>CLOTHES</Link></li>
+          <li><Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>TECH</Link></li>
         </ul>
       </nav>
 
