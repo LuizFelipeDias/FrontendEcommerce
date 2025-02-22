@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faCartShopping, faPlus, faMinus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
@@ -10,6 +10,10 @@ const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
   const location = useLocation();
+
+  useEffect(() => {
+    console.log("Pathname atualizado:", location.pathname);
+  }, [location.pathname]);
 
   const handleCartClick = () => {
     setIsCartOpen(!isCartOpen);
