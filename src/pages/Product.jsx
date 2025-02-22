@@ -61,7 +61,6 @@ const Product = () => {
 
   return (
     <div>
-      <Header />
       <div className="page-inner-content">
         <div className="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {products.length > 0 ? (
