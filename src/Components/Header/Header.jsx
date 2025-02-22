@@ -63,12 +63,11 @@ const Header = () => {
       </nav>
 
       <div className="cart-container">
-
-        <button onClick={handleCartClick} disabled={cartItems.length === 0} data-testid="cart-btn">
+        <button onClick={handleCartClick} disabled={cartItems.length === 0}>
           <FontAwesomeIcon icon={faCartShopping} className="cart" />
           <div className="products-count">{cartItems.length}</div>
         </button>
-        
+
         <div className={`cart-modal ${isCartOpen ? "active" : ""}`}>
           <button className="close-modal" onClick={handleCartClick}>
             <FontAwesomeIcon icon={faTimes} />
@@ -83,38 +82,40 @@ const Header = () => {
                     <p className="cart-item-price">{item.price} {item.currency}</p>
                     {item.availableAttributes && (
                       <div className="cart-item-attributes">
-                        {Object.entries(item.availableAttributes).map(([groupName, attributes], index) => {
-                          return (
-                            <div key={index} className="cart-attribute-group">
-                              <h4 className="cart-attribute-title">{groupName}:</h4>
-                              <div className="cart-attribute-buttons">
-                                {attributes.map((option, optIdx) => {
-                                       return (
-                                    <button
-                                      key={optIdx}
-                                      className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
-                                      style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
-                                      onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                    >
-                                      {groupName.toLowerCase() !== "color" && option}
-                                    </button>
-                                  );
-                                })}
-                              </div>
+                        {Object.entries(item.availableAttributes).map(([groupName, attributes], index) => (
+                          <div key={index} className="cart-attribute-group">
+                            <h4 className="cart-attribute-title">{groupName}:</h4>
+                            <div className="cart-attribute-buttons">
+                              {attributes.map((option, optIdx) => (
+                                <button
+                                  key={optIdx}
+                                  className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
+                                  style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
+                                  onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
+                                >
+                                  {groupName.toLowerCase() !== "color" && option}
+                                </button>
+                              ))}
                             </div>
-                          );
-                        })}
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>
                   <div className="add-and-remove-cart">
                     <div className="cart-item-quantity">
-                      <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} data-testid="cart-item-amount-increase">
-                        <FontAwesomeIcon icon={faPlus} />
+                      <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)}>
+                        <FontAwesomeIcon icon={faPlus} className="add"/>
                       </button>
-                      <span data-testid="cart-item-amount">{item.quantity}</span>
-                      <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} data-testid="cart-item-amount-decrease">
-                        <FontAwesomeIcon icon={faMinus} />
+                      <input
+                        className="input-quntity"
+                        type="number"
+                        value={item.quantity}
+                        min="1"
+                        onChange={(e) => handleQuantityChange(item.uniqueId, parseInt(e.target.value))}
+                      />
+                      <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)}>
+                        <FontAwesomeIcon icon={faMinus}/>
                       </button>
                     </div>
                   </div>
@@ -124,7 +125,7 @@ const Header = () => {
                 </div>
               ))}
             </div>
-            <p className="total" data-testid="cart-total">TOTAL: {calculateTotal()}</p>
+            <p className="total">TOTAL: {calculateTotal()}</p>
           </div>
         </div>
       </div>
