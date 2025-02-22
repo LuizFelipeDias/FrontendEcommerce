@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "../Components/Cart/CartContext";
 import Header from "../Components/Header/Header";
+// import retirado
 
 
 const Product = () => {
