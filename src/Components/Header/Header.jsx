@@ -94,14 +94,14 @@ const Header = () => {
                               <h4 className="cart-attribute-title">{groupName}:</h4>
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
-                                  const optionKebabCase = option.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
+                                  const optionFormatted = option.toUpperCase();
                                   return (
                                     <button
                                       key={optIdx}
                                       className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
-                                      style={groupName.toLowerCase() === "color" ? { backgroundColor: optionFormatted } : {}}
+                                      style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
                                       onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                      data-testid={`cart-item-attribute-${kebabCaseName}-${optionFormatted}${item.attributes[groupName] === option ? "-selected" : ""}`}
+                                      data-testid={`cart-item-attribute-${kebabCaseName}-${optionKebabCase}${item.attributes[groupName] === option ? "-selected" : ""}`}
                                     >
                                       {groupName.toLowerCase() !== "color" && option}
                                     </button>
