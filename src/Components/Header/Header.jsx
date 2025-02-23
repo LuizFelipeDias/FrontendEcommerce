@@ -1,39 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faCartShopping, faPlus, faMinus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faPlus, faMinus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../Cart/CartContext";
 import "./Header.css";
 import Logo from "../../assets/Logo";
 
 const Header = () => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
+  const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart, isCartOverlayOpen, closeCartOverlay } = useCart();
   const location = useLocation();
-
-  // Depuração: Verifica se o carrinho está aberto e exibe os itens no carrinho
-  useEffect(() => {
-    console.log("Carrinho aberto:", isCartOpen);
-    console.log("Itens no carrinho:", cartItems);
-
-    if (isCartOpen) {
-      const timer = setTimeout(() => {
-        console.log("Carrinho totalmente renderizado");
-      }, 500); // Atraso de 500ms para garantir que o modal esteja visível
-      return () => clearTimeout(timer);
-    }
-  }, [isCartOpen, cartItems]);
 
   // Função para converter strings em kebab-case
   const toKebabCase = (str) => str.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
 
   const handleCartClick = () => {
-    console.log("Botão do carrinho clicado. Estado anterior:", isCartOpen); // Depuração
-    setIsCartOpen((prevState) => {
-      const newState = !prevState;
-      console.log("Novo estado do carrinho:", newState); // Depuração
-      return newState;
-    });
+    if (isCartOverlayOpen) {
+      closeCartOverlay(); // Fecha o overlay se estiver aberto
+    } else {
+      // Abre o overlay se estiver fechado
+      setIsCartOpen(true);
+    }
   };
 
   const handleQuantityChange = (uniqueId, newQuantity) => {
@@ -61,7 +47,7 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className={`overlay ${isCartOpen ? "active" : ""}`} onClick={handleCartClick}></div>
+      <div className={`overlay ${isCartOverlayOpen ? "active" : ""}`} onClick={closeCartOverlay}></div>
 
       <div className="logo-container">
         <Logo />
@@ -90,84 +76,79 @@ const Header = () => {
           <div className="products-count">{cartItems.length}</div>
         </button>
 
-        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOpen ? "auto" : "none" }}> 
-          <button className="close-modal" onClick={handleCartClick}>
+        <div className={`cart-modal ${isCartOverlayOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOverlayOpen ? "auto" : "none" }}>
+          <button className="close-modal" onClick={closeCartOverlay}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
           <div className="cart-modal-content">
             <h2 className="cart-title">YOUR BAG</h2>
             <div className="cart-items-container">
-              {cartItems.map((item, index) => {
-                console.log("Renderizando item:", item); // Depuração: Verifica cada item renderizado
-                return (
-                  <div key={index} className="cart-item-container">
-                    <div className="cart-item-details">
-                      <p className="cart-item-name">{item.name}</p>
-                      <p className="cart-item-price">{item.price} {item.currency}</p>
-                      {item.availableAttributes && (
-                        <div className="cart-item-attributes">
-                          {Object.entries(item.availableAttributes).map(([groupName, attributes], idx) => {
-                            const kebabCaseName = toKebabCase(groupName);
-                            return (
-                              <div key={idx} className="cart-attribute-group" data-testid={`cart-item-attribute-${kebabCaseName}`}>
-                                <h4 className="cart-attribute-title">{groupName}:</h4>
-                                <div className="cart-attribute-buttons">
-                                  {attributes.map((option, optIdx) => {
-                                    // Gera o data-testid corretamente, incluindo o # para cores hexadecimais
-                                    const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option : toKebabCase(option)}`;
-                                    const isSelected = item.attributes[groupName] === option;
-                                    console.log("Generated data-testid:", testId); // Depuração: Verifica o data-testid gerado
-                                    return (
-                                      <button
-                                        key={optIdx}
-                                        className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
-                                        style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
-                                        onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                        data-testid={`${testId}${isSelected ? "-selected" : ""}`}
-                                      >
-                                        {groupName.toLowerCase() !== "color" && option}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
+              {cartItems.map((item, index) => (
+                <div key={index} className="cart-item-container">
+                  <div className="cart-item-details">
+                    <p className="cart-item-name">{item.name}</p>
+                    <p className="cart-item-price">{item.price} {item.currency}</p>
+                    {item.availableAttributes && (
+                      <div className="cart-item-attributes">
+                        {Object.entries(item.availableAttributes).map(([groupName, attributes], idx) => {
+                          const kebabCaseName = toKebabCase(groupName);
+                          return (
+                            <div key={idx} className="cart-attribute-group" data-testid={`cart-item-attribute-${kebabCaseName}`}>
+                              <h4 className="cart-attribute-title">{groupName}:</h4>
+                              <div className="cart-attribute-buttons">
+                                {attributes.map((option, optIdx) => {
+                                  const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option : toKebabCase(option)}`;
+                                  const isSelected = item.attributes[groupName] === option;
+                                  return (
+                                    <button
+                                      key={optIdx}
+                                      className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
+                                      style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
+                                      onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
+                                      data-testid={`${testId}${isSelected ? "-selected" : ""}`}
+                                    >
+                                      {groupName.toLowerCase() !== "color" && option}
+                                    </button>
+                                  );
+                                })}
                               </div>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                    <div className="add-and-remove-cart">
-                      <div className="cart-item-quantity">
-                        <button 
-                          className="add-quantity" 
-                          onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} 
-                          data-testid="cart-item-amount-increase"
-                        >
-                          <FontAwesomeIcon icon={faPlus} className="add"/>
-                        </button>
-                        <input 
-                          className="input-quntity" 
-                          type="number" 
-                          value={item.quantity} 
-                          min="1" 
-                          readOnly 
-                          data-testid="cart-item-amount" 
-                        />
-                        <button 
-                          className="remove-quantity" 
-                          onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} 
-                          data-testid="cart-item-amount-decrease"
-                        >
-                          <FontAwesomeIcon icon={faMinus}/>
-                        </button>
+                            </div>
+                          );
+                        })}
                       </div>
-                    </div>
-                    <div className="cart-item-image-container">
-                      <img src={item.image} alt={item.name} className="cart-item-image" />
+                    )}
+                  </div>
+                  <div className="add-and-remove-cart">
+                    <div className="cart-item-quantity">
+                      <button 
+                        className="add-quantity" 
+                        onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} 
+                        data-testid="cart-item-amount-increase"
+                      >
+                        <FontAwesomeIcon icon={faPlus} className="add"/>
+                      </button>
+                      <input 
+                        className="input-quntity" 
+                        type="number" 
+                        value={item.quantity} 
+                        min="1" 
+                        readOnly 
+                        data-testid="cart-item-amount" 
+                      />
+                      <button 
+                        className="remove-quantity" 
+                        onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} 
+                        data-testid="cart-item-amount-decrease"
+                      >
+                        <FontAwesomeIcon icon={faMinus}/>
+                      </button>
                     </div>
                   </div>
-                );
-              })}
+                  <div className="cart-item-image-container">
+                    <img src={item.image} alt={item.name} className="cart-item-image" />
+                  </div>
+                </div>
+              ))}
             </div>
             <p className="total" data-testid="cart-total">TOTAL: {calculateTotal()}</p>
           </div>
