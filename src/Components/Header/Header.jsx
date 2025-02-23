@@ -13,7 +13,10 @@ const Header = () => {
 
   useEffect(() => {}, [location.pathname]);
 
+  // Função para sanitizar cores (remover # e espaços, converter para minúsculas)
   const sanitizeColor = (color) => color.replace(/#/g, "").trim().toLowerCase();
+
+  // Função para converter strings em kebab-case
   const toKebabCase = (str) => str.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
 
   const handleCartClick = () => {
@@ -88,21 +91,23 @@ const Header = () => {
                     <p className="cart-item-price">{item.price} {item.currency}</p>
                     {item.availableAttributes && (
                       <div className="cart-item-attributes">
-                        {Object.entries(item.availableAttributes).map(([groupName, attributes], index) => {
+                        {Object.entries(item.availableAttributes).map(([groupName, attributes], idx) => {
                           const kebabCaseName = toKebabCase(groupName);
                           return (
-                            <div key={index} className="cart-attribute-group" data-testid={`cart-item-attribute-${kebabCaseName}`}>
+                            <div key={idx} className="cart-attribute-group" data-testid={`cart-item-attribute-${kebabCaseName}`}>
                               <h4 className="cart-attribute-title">{groupName}:</h4>
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
-                                  const sanitizedOption = toKebabCase(sanitizeColor(option));
+                                  const sanitizedOption = sanitizeColor(option); // Sanitiza a cor
+                                  const testId = `cart-item-attribute-${kebabCaseName}-${sanitizedOption}`;
+                                  const isSelected = item.attributes[groupName] === option;
                                   return (
                                     <button
                                       key={optIdx}
-                                      className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
+                                      className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
                                       style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
                                       onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                      data-testid={`cart-item-attribute-${kebabCaseName}-${sanitizedOption}${item.attributes[groupName] === option ? "-selected" : ""}`}
+                                      data-testid={`${testId}${isSelected ? "-selected" : ""}`}
                                     >
                                       {groupName.toLowerCase() !== "color" && option}
                                     </button>
@@ -117,15 +122,26 @@ const Header = () => {
                   </div>
                   <div className="add-and-remove-cart">
                     <div className="cart-item-quantity">
-                      <button className="add-quantity" 
-                      onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} 
-                      data-testid="cart-item-amount-increase">
+                      <button 
+                        className="add-quantity" 
+                        onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} 
+                        data-testid="cart-item-amount-increase"
+                      >
                         <FontAwesomeIcon icon={faPlus} className="add"/>
                       </button>
-                      <input className="input-quntity" type="number" value={item.quantity} min="1" readOnly data-testid="cart-item-amount" />
-                      <button className="remove-quantity" 
-                      onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} 
-                      data-testid="cart-item-amount-decrease">
+                      <input 
+                        className="input-quntity" 
+                        type="number" 
+                        value={item.quantity} 
+                        min="1" 
+                        readOnly 
+                        data-testid="cart-item-amount" 
+                      />
+                      <button 
+                        className="remove-quantity" 
+                        onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} 
+                        data-testid="cart-item-amount-decrease"
+                      >
                         <FontAwesomeIcon icon={faMinus}/>
                       </button>
                     </div>
