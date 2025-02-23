@@ -13,9 +13,6 @@ const Header = () => {
 
   useEffect(() => {}, [location.pathname]);
 
-  // Função para sanitizar cores (remover # e espaços, converter para minúsculas)
-  const sanitizeColor = (color) => color.replace(/#/g, "").trim().toLowerCase();
-
   // Função para converter strings em kebab-case
   const toKebabCase = (str) => str.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
 
@@ -98,8 +95,7 @@ const Header = () => {
                               <h4 className="cart-attribute-title">{groupName}:</h4>
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
-                                  const sanitizedOption = sanitizeColor(option); // Sanitiza a cor
-                                  const testId = `cart-item-attribute-${kebabCaseName}-${sanitizedOption}`;
+                                  const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option.replace("#", "") : toKebabCase(option)}`;
                                   const isSelected = item.attributes[groupName] === option;
                                   return (
                                     <button
