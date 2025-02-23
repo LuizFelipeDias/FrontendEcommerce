@@ -6,6 +6,8 @@ import { useCart } from "../Cart/CartContext";
 import "./Header.css";
 import Logo from "../../assets/Logo";
 
+const toKebabCase = (str) => str.replace(/\s+/g, "-").toLowerCase();
+
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
@@ -87,30 +89,29 @@ const Header = () => {
                     <p className="cart-item-price">{item.price} {item.currency}</p>
                     {item.availableAttributes && (
                       <div className="cart-item-attributes">
-                        {Object.entries(item.availableAttributes).map(([groupName, attributes], index) => {
-                          const kebabCaseName = groupName.replace(/\s+/g, "-").toLowerCase();
-                          return (
-                            <div key={index} className="cart-attribute-group" data-testid={`cart-item-attribute-${kebabCaseName}`}>
-                              <h4 className="cart-attribute-title">{groupName}:</h4>
-                              <div className="cart-attribute-buttons">
-                                {attributes.map((option, optIdx) => {
-                                  const optionKebabCase = option.replace(/\s+/g, "-").toLowerCase();
-                                  return (
-                                    <button
-                                      key={optIdx}
-                                      className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
-                                      style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
-                                      onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                      data-testid={`cart-item-attribute-${kebabCaseName}-${optionKebabCase}${item.attributes[groupName] === option ? "-selected" : ""}`}
-                                    >
-                                      {groupName.toLowerCase() !== "color" && option}
-                                    </button>
-                                  );
-                                })}
-                              </div>
+                        {Object.entries(item.availableAttributes).map(([groupName, attributes], idx) => (
+                          <div key={idx} className="cart-attribute-group" data-testid={`cart-item-attribute-${toKebabCase(groupName)}`}>
+                            <h4 className="cart-attribute-title">{groupName}:</h4>
+                            <div className="cart-attribute-buttons">
+                              {attributes.map((option, optIdx) => {
+                                const kebabAttribute = toKebabCase(groupName);
+                                const kebabOption = toKebabCase(option);
+                                const isSelected = item.attributes[groupName] === option;
+                                return (
+                                  <button
+                                    key={optIdx}
+                                    className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
+                                    style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
+                                    onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
+                                    data-testid={`cart-item-attribute-${kebabAttribute}-${kebabOption}${isSelected ? "-selected" : ""}`}
+                                  >
+                                    {groupName.toLowerCase() !== "color" && option}
+                                  </button>
+                                );
+                              })}
                             </div>
-                          );
-                        })}
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -119,14 +120,11 @@ const Header = () => {
                       <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} data-testid="cart-item-amount-increase">
                         <FontAwesomeIcon icon={faPlus} className="add"/>
                       </button>
-                      <input className="input-quntity" type="number" value={item.quantity} min="1" readOnly data-testid="cart-item-amount" />
+                      <span data-testid="cart-item-amount">{item.quantity}</span>
                       <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} data-testid="cart-item-amount-decrease">
                         <FontAwesomeIcon icon={faMinus}/>
                       </button>
                     </div>
-                  </div>
-                  <div className="cart-item-image-container">
-                    <img src={item.image} alt={item.name} className="cart-item-image" />
                   </div>
                 </div>
               ))}
