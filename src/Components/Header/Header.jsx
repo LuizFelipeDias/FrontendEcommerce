@@ -7,7 +7,7 @@ import "./Header.css";
 import Logo from "../../assets/Logo";
 
 const toKebabCase = (str) => str.replace(/\s+/g, "-").toLowerCase();
-const formatColorTestId = (color) => color.startsWith("#") ? color.replace("#", "%23") : toKebabCase(color);
+const formatColorTestId = (color) => color.startsWith("#") ? color.slice(1).toUpperCase() : toKebabCase(color);
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -104,7 +104,7 @@ const Header = () => {
                                     className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
                                     style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
                                     onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                    data-testid={`cart-item-attribute-${kebabAttribute}-${formattedTestId}${isSelected ? "-selected" : ""}`}
+                                    data-testid={`product-attribute-${kebabAttribute}-${formattedTestId}${isSelected ? "-selected" : ""}`}
                                   >
                                     {groupName.toLowerCase() !== "color" && option}
                                   </button>
