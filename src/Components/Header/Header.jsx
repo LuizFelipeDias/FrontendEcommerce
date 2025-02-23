@@ -119,6 +119,7 @@ const Header = () => {
                                   className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
                                   style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
                                   onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
+                                  data-testid={`cart-item-attribute-${kebabCaseName}-${optionKebab}${isSelected ? "-selected" : ""}`}
                                 >
                                   {groupName.toLowerCase() !== "color" && option}
                                 </button>
@@ -131,7 +132,9 @@ const Header = () => {
                   </div>
                   <div className="add-and-remove-cart">
                     <div className="cart-item-quantity">
-                      <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)}>
+                      <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)}
+                        data-testid="cart-item-amount-increase"
+                        >
                         <FontAwesomeIcon icon={faPlus} className="add"/>
                       </button>
                       <input
@@ -141,7 +144,9 @@ const Header = () => {
                         min="1"
                         onChange={(e) => handleQuantityChange(item.uniqueId, parseInt(e.target.value))}
                       />
-                      <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)}>
+                      <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)}
+                        data-testid="cart-item-amount-decrease"
+                        >
                         <FontAwesomeIcon icon={faMinus}/>
                       </button>
                     </div>
