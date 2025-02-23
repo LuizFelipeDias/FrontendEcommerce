@@ -6,7 +6,9 @@ import { useCart } from "../Cart/CartContext";
 import "./Header.css";
 import Logo from "../../assets/Logo";
 
-const toKebabCase = (str) => str.replace(/\s+/g, "-").toLowerCase();
+const toKebabCase = (str) => {
+  return str.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
+};
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -47,25 +49,15 @@ const Header = () => {
   return (
     <div className="header">
       <div className={`overlay ${isCartOpen ? "active" : ""}`} onClick={handleCartClick}></div>
-
       <div className="logo-container">
         <Logo />
       </div>
-
       <nav>
         <ul>
-          <li>
-            <Link to="/" data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}>Home</Link>
-          </li>
-          <li>
-            <Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>all</Link>
-          </li>
-          <li>
-            <Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>clothes</Link>
-          </li>
-          <li>
-            <Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>tech</Link>
-          </li>
+          <li><Link to="/" data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}>Home</Link></li>
+          <li><Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>all</Link></li>
+          <li><Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>clothes</Link></li>
+          <li><Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>tech</Link></li>
         </ul>
       </nav>
 
@@ -75,40 +67,33 @@ const Header = () => {
           <div className="products-count">{cartItems.length}</div>
         </button>
 
-        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOpen ? "auto" : "none" }}> 
-          <button className="close-modal" onClick={handleCartClick}>
-            <FontAwesomeIcon icon={faTimes} />
-          </button>
+        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay">
+          <button className="close-modal" onClick={handleCartClick}><FontAwesomeIcon icon={faTimes} /></button>
           <div className="cart-modal-content">
             <h2 className="cart-title">YOUR BAG</h2>
             <div className="cart-items-container">
-              {cartItems.map((item, index) => (
-                <div key={index} className="cart-item-container">
+              {cartItems.map((item) => (
+                <div key={item.uniqueId} className="cart-item-container">
                   <div className="cart-item-details">
                     <p className="cart-item-name">{item.name}</p>
                     <p className="cart-item-price">{item.price} {item.currency}</p>
                     {item.availableAttributes && (
                       <div className="cart-item-attributes">
-                        {Object.entries(item.availableAttributes).map(([groupName, attributes], idx) => (
-                          <div key={idx} className="cart-attribute-group" data-testid={`cart-item-attribute-${toKebabCase(groupName)}`}>
+                        {Object.entries(item.availableAttributes).map(([groupName, attributes]) => (
+                          <div key={groupName} className="cart-attribute-group" data-testid={`cart-item-attribute-${toKebabCase(groupName)}`}>
                             <h4 className="cart-attribute-title">{groupName}:</h4>
                             <div className="cart-attribute-buttons">
-                              {attributes.map((option, optIdx) => {
-                                const kebabAttribute = toKebabCase(groupName);
-                                const kebabOption = toKebabCase(option);
-                                const isSelected = item.attributes[groupName] === option;
-                                return (
-                                  <button
-                                    key={optIdx}
-                                    className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
-                                    style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
-                                    onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                    data-testid={`cart-item-attribute-${kebabAttribute}-${kebabOption}${isSelected ? "-selected" : ""}`}
-                                  >
-                                    {groupName.toLowerCase() !== "color" && option}
-                                  </button>
-                                );
-                              })}
+                              {attributes.map((option) => (
+                                <button
+                                  key={option}
+                                  className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
+                                  style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
+                                  onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
+                                  data-testid={`cart-item-attribute-${toKebabCase(groupName)}-${toKebabCase(option)}${item.attributes[groupName] === option ? "-selected" : ""}`}
+                                >
+                                  {groupName.toLowerCase() !== "color" && option}
+                                </button>
+                              ))}
                             </div>
                           </div>
                         ))}
@@ -116,15 +101,16 @@ const Header = () => {
                     )}
                   </div>
                   <div className="add-and-remove-cart">
-                    <div className="cart-item-quantity">
-                      <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} data-testid="cart-item-amount-increase">
-                        <FontAwesomeIcon icon={faPlus} className="add"/>
-                      </button>
-                      <span data-testid="cart-item-amount">{item.quantity}</span>
-                      <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} data-testid="cart-item-amount-decrease">
-                        <FontAwesomeIcon icon={faMinus}/>
-                      </button>
-                    </div>
+                    <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} data-testid="cart-item-amount-increase">
+                      <FontAwesomeIcon icon={faPlus} className="add"/>
+                    </button>
+                    <span data-testid="cart-item-amount">{item.quantity}</span>
+                    <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} data-testid="cart-item-amount-decrease">
+                      <FontAwesomeIcon icon={faMinus}/>
+                    </button>
+                  </div>
+                  <div className="cart-item-image-container">
+                    <img src={item.image} alt={item.name} className="cart-item-image" />
                   </div>
                 </div>
               ))}
