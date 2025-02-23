@@ -11,9 +11,11 @@ const Header = () => {
   const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
   const location = useLocation();
 
-  useEffect(() => {}, [location.pathname]);
+  useEffect(() => {
+    console.log("Pathname atualizado:", location.pathname);
+  }, [location.pathname]);
 
-  const sanitizeColor = (color) => color.replace(/#/g, "").trim().toLowerCase();
+  const sanitizeColor = (color) => color.replace(/[^a-zA-Z0-9]/g, "").trim().toLowerCase();
   const toKebabCase = (str) => str.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
 
   const handleCartClick = () => {
@@ -96,13 +98,14 @@ const Header = () => {
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
                                   const sanitizedOption = toKebabCase(sanitizeColor(option));
+                                  console.log(`Test ID: cart-item-attribute-${kebabCaseName}-${sanitizedOption}`);
                                   return (
                                     <button
                                       key={optIdx}
                                       className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
                                       style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
                                       onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                      data-testid={`cart-item-attribute-${kebabCaseName}-${sanitizedOption}${item.attributes[groupName] === option ? "-selected" : ""}`}
+                                      data-testid={`cart-item-attribute-${kebabCaseName}-${sanitizeColor(option)}${item.attributes[groupName] === option ? "-selected" : ""}`}
                                     >
                                       {groupName.toLowerCase() !== "color" && option}
                                     </button>
