@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faCartShopping, faPlus, faMinus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
@@ -7,8 +7,16 @@ import "./Header.css";
 import Logo from "../../assets/Logo";
 
 const Header = () => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
+  const {
+    cartItems = [],
+    updateCartItemQuantity,
+    updateCartItemAttributes,
+    removeFromCart,
+    isCartOpen,
+    openCart,
+    closeCart,
+  } = useCart(); // Adicione isCartOpen, openCart e closeCart ao destructuring
+
   const location = useLocation();
 
   useEffect(() => {
@@ -16,10 +24,12 @@ const Header = () => {
   }, [location.pathname]);
 
   const handleCartClick = () => {
-    setIsCartOpen((prevState) => !prevState);
+    if (isCartOpen) {
+      closeCart(); // Fecha o carrinho se estiver aberto
+    } else {
+      openCart(); // Abre o carrinho se estiver fechado
+    }
   };
-  
-  
 
   const handleQuantityChange = (uniqueId, newQuantity) => {
     if (newQuantity < 1) {
@@ -46,7 +56,7 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className={`overlay ${isCartOpen ? "active" : ""}`} onClick={handleCartClick}></div>
+      <div className={`overlay ${isCartOpen ? "active" : ""}`} onClick={closeCart}></div>
 
       <div className="logo-container">
         <Logo />
@@ -96,7 +106,7 @@ const Header = () => {
         </button>
 
         <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOpen ? "auto" : "none" }}> 
-          <button className="close-modal" onClick={handleCartClick}>
+          <button className="close-modal" onClick={closeCart}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
           <div className="cart-modal-content">

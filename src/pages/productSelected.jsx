@@ -64,6 +64,7 @@ const ProductSelected = () => {
     };
 
     addToCart(cartItem);
+    openCart(); // Abre o carrinho após adicionar o produto
     console.log("Produto adicionado ao carrinho:", cartItem);
   };
 
