@@ -4,8 +4,8 @@ import { useCart } from "../Components/Cart/CartContext";
 import "./productSelected.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import { Swiper, SwiperSlide } from 'swiper/react'; // Import Swiper and SwiperSlide
+import 'swiper/css'; // Basic Swiper styles
 
 const ProductSelected = () => {
   const { id } = useParams();
@@ -14,9 +14,9 @@ const ProductSelected = () => {
   const { addToCart } = useCart();
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [isAllAttributesSelected, setIsAllAttributesSelected] = useState(false);
-  const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300");
-  const [isCartOverlayVisible, setIsCartOverlayVisible] = useState(false); // Novo estado para exibir o overlay
+  const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300"); // Estado para a imagem principal
 
+  // Verifica se todos os atributos foram selecionados
   useEffect(() => {
     if (product?.attributes) {
       const allSelected = product.attributes.every(
@@ -26,6 +26,7 @@ const ProductSelected = () => {
     }
   }, [selectedAttributes, product]);
 
+  // Função para selecionar atributos
   const handleSelectAttribute = (name, value) => {
     setSelectedAttributes((prev) => ({
       ...prev,
@@ -33,14 +34,17 @@ const ProductSelected = () => {
     }));
   };
 
+  // Função para adicionar ao carrinho
   const handleAddToCart = () => {
     if (!product || !isAllAttributesSelected) return;
 
+    // Gera o uniqueId com base nos atributos selecionados
     const uniqueId = `${product.id}-${Object.entries(selectedAttributes)
-      .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(([key, value]) => `${key}:${value}`)
-      .join("-")}`;
+      .sort((a, b) => a[0].localeCompare(b[0])) // Ordena os atributos por nome
+      .map(([key, value]) => `${key}:${value}`) // Formata como "nome:valor"
+      .join("-")}`; // Junta tudo com "-"
 
+    // Cria um objeto com os atributos disponíveis
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
@@ -51,31 +55,25 @@ const ProductSelected = () => {
       id: product.id,
       uniqueId,
       name: product.name,
-      image: mainImage,
+      image: mainImage, // Usa a imagem principal atual
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes },
-      availableAttributes,
+      attributes: { ...selectedAttributes }, // Copia os atributos selecionados
+      availableAttributes, // Inclui os atributos disponíveis
       quantity: 1,
     };
 
     addToCart(cartItem);
     console.log("Produto adicionado ao carrinho:", cartItem);
-
-    // Exibir o cart overlay após adicionar ao carrinho
-    setIsCartOverlayVisible(true);
-
-    // Esconder o overlay após 5 segundos (ajustável)
-    setTimeout(() => {
-      setIsCartOverlayVisible(false);
-    }, 5000);
   };
 
+  // Agrupa atributos pelo nome
   const groupedAttributes = product?.attributes?.reduce((acc, attr) => {
     (acc[attr.name] = acc[attr.name] || []).push(attr);
     return acc;
   }, {});
 
+  // Função para trocar a imagem principal
   const handleThumbnailClick = (image) => {
     setMainImage(image);
   };
@@ -83,22 +81,30 @@ const ProductSelected = () => {
   return (
     <div className="product-container">
       <div className="swiper">
-        <Swiper direction="vertical" slidesPerView={5} spaceBetween={12} className="swiper-container">
+        <Swiper
+          direction="vertical" // Define a direção vertical
+          slidesPerView={5} // Exibe 5 slides por vez
+          spaceBetween={12} // Espaço entre os slides
+          className="swiper-container"
+        >
           {product?.images?.map((image, index) => (
             <SwiperSlide key={index}>
               <img
                 src={image}
                 alt={`Thumbnail ${index + 1}`}
                 className="thumbnail-image"
-                onClick={() => handleThumbnailClick(image)}
+                onClick={() => handleThumbnailClick(image)} // Troca a imagem principal ao clicar
               />
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
-
       <div className="product-image-container">
-        <img className="product-image" src={mainImage} alt={product?.name} />
+        <img
+          className="product-image"
+          src={mainImage} // Usa a imagem principal atual
+          alt={product?.name}
+        />
       </div>
 
       <div className="product-details">
@@ -108,17 +114,23 @@ const ProductSelected = () => {
             <div key={index} className="attribute-group">
               <h4 className="attribute-title">{name}:</h4>
               <div className="attribute-buttons">
-                {attributes.map((attr, idx) => (
-                  <button
-                    key={idx}
-                    className={`attribute-button ${selectedAttributes[name] === attr.value ? "selected" : ""}`}
-                    style={name.toLowerCase() === "color" ? { backgroundColor: attr.value } : {}}
-                    onClick={() => handleSelectAttribute(name, attr.value)}
-                    data-testid={`product-attribute-${name.toLowerCase()}-${attr.value}`}
-                  >
-                    {name.toLowerCase() !== "color" && attr.value}
-                  </button>
-                ))}
+                {attributes.map((attr, idx) => {
+                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value.replace(/#/g, "")}`;
+                  console.log("Renderizando botão com data-testid:", testId); // Depuração
+                  return (
+                    <button
+                      key={idx}
+                      className={`attribute-button ${
+                        selectedAttributes[name] === attr.value ? "selected" : ""
+                      }`}
+                      style={name.toLowerCase() === "color" ? { backgroundColor: attr.value } : {}}
+                      onClick={() => handleSelectAttribute(name, attr.value)}
+                      data-testid={testId} // Adiciona data-testid
+                    >
+                      {name.toLowerCase() !== "color" && attr.value}
+                    </button>
+                  );
+                })}
               </div>
               {!selectedAttributes[name] && (
                 <p className="attribute-error">Please select an option..</p>
@@ -137,7 +149,7 @@ const ProductSelected = () => {
               className={`add-to-cart ${!isAllAttributesSelected ? "disabled" : ""}`}
               onClick={handleAddToCart}
               disabled={!isAllAttributesSelected}
-              data-testid="add-to-cart-button"
+              data-testid="add-to-cart-button" // Adiciona data-testid
             >
               ADD TO CART <FontAwesomeIcon icon={faCartShopping} /> <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -153,13 +165,6 @@ const ProductSelected = () => {
           {product?.description || "Nenhuma descrição disponível."}
         </p>
       </div>
-
-      {/* Cart Overlay */}
-      {isCartOverlayVisible && (
-        <div className="cart-overlay" data-testid="cart-overlay">
-          <p>Item adicionado ao carrinho!</p>
-        </div>
-      )}
     </div>
   );
 };

@@ -90,7 +90,7 @@ const Header = () => {
           <div className="products-count">{cartItems.length}</div>
         </button>
 
-        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOpen ? "auto" : "none" }}> 
+        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="header-cart-overlay">
           <button className="close-modal" onClick={handleCartClick}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
@@ -113,8 +113,7 @@ const Header = () => {
                                 <h4 className="cart-attribute-title">{groupName}:</h4>
                                 <div className="cart-attribute-buttons">
                                   {attributes.map((option, optIdx) => {
-                                    // Gera o data-testid corretamente, incluindo o # para cores hexadecimais
-                                    const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option : toKebabCase(option)}`;
+                                    const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option.replace("#", "") : toKebabCase(option)}`;
                                     const isSelected = item.attributes[groupName] === option;
                                     console.log("Generated data-testid:", testId); // Depuração: Verifica o data-testid gerado
                                     return (
