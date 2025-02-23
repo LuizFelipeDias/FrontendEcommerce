@@ -115,7 +115,7 @@ const ProductSelected = () => {
               <h4 className="attribute-title">{name}:</h4>
               <div className="attribute-buttons">
                 {attributes.map((attr, idx) => {
-                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value.replace(/#/g, "")}`;
+                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value}`; // Mantém o #
                   console.log("Renderizando botão com data-testid:", testId); // Depuração
                   return (
                     <button
