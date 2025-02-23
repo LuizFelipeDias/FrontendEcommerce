@@ -11,7 +11,10 @@ const Header = () => {
   const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
   const location = useLocation();
 
-  useEffect(() => {}, [location.pathname]);
+  useEffect(() => {
+    console.log("Carrinho aberto:", isCartOpen); // Depuração: Verifica se o carrinho está aberto
+    console.log("Itens no carrinho:", cartItems); // Depuração: Verifica os itens no carrinho
+  }, [isCartOpen, cartItems]);
 
   // Função para converter strings em kebab-case
   const toKebabCase = (str) => str.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
@@ -81,74 +84,77 @@ const Header = () => {
           <div className="cart-modal-content">
             <h2 className="cart-title">YOUR BAG</h2>
             <div className="cart-items-container">
-              {cartItems.map((item, index) => (
-                <div key={index} className="cart-item-container">
-                  <div className="cart-item-details">
-                    <p className="cart-item-name">{item.name}</p>
-                    <p className="cart-item-price">{item.price} {item.currency}</p>
-                    {item.availableAttributes && (
-                      <div className="cart-item-attributes">
-                        {Object.entries(item.availableAttributes).map(([groupName, attributes], idx) => {
-                          const kebabCaseName = toKebabCase(groupName);
-                          return (
-                            <div key={idx} className="cart-attribute-group" data-testid={`cart-item-attribute-${kebabCaseName}`}>
-                              <h4 className="cart-attribute-title">{groupName}:</h4>
-                              <div className="cart-attribute-buttons">
-                                {attributes.map((option, optIdx) => {
-                                  // Gera o data-testid corretamente, incluindo o # para cores hexadecimais
-                                  const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option : toKebabCase(option)}`;
-                                  const isSelected = item.attributes[groupName] === option;
-                                  console.log("Generated data-testid:", testId); // Log para depuração
-                                  return (
-                                    <button
-                                      key={optIdx}
-                                      className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
-                                      style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
-                                      onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                      data-testid={`${testId}${isSelected ? "-selected" : ""}`}
-                                    >
-                                      {groupName.toLowerCase() !== "color" && option}
-                                    </button>
-                                  );
-                                })}
+              {cartItems.map((item, index) => {
+                console.log("Renderizando item:", item); // Depuração: Verifica cada item renderizado
+                return (
+                  <div key={index} className="cart-item-container">
+                    <div className="cart-item-details">
+                      <p className="cart-item-name">{item.name}</p>
+                      <p className="cart-item-price">{item.price} {item.currency}</p>
+                      {item.availableAttributes && (
+                        <div className="cart-item-attributes">
+                          {Object.entries(item.availableAttributes).map(([groupName, attributes], idx) => {
+                            const kebabCaseName = toKebabCase(groupName);
+                            return (
+                              <div key={idx} className="cart-attribute-group" data-testid={`cart-item-attribute-${kebabCaseName}`}>
+                                <h4 className="cart-attribute-title">{groupName}:</h4>
+                                <div className="cart-attribute-buttons">
+                                  {attributes.map((option, optIdx) => {
+                                    // Gera o data-testid corretamente, incluindo o # para cores hexadecimais
+                                    const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option : toKebabCase(option)}`;
+                                    const isSelected = item.attributes[groupName] === option;
+                                    console.log("Generated data-testid:", testId); // Depuração: Verifica o data-testid gerado
+                                    return (
+                                      <button
+                                        key={optIdx}
+                                        className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
+                                        style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
+                                        onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
+                                        data-testid={`${testId}${isSelected ? "-selected" : ""}`}
+                                      >
+                                        {groupName.toLowerCase() !== "color" && option}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                    <div className="add-and-remove-cart">
+                      <div className="cart-item-quantity">
+                        <button 
+                          className="add-quantity" 
+                          onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} 
+                          data-testid="cart-item-amount-increase"
+                        >
+                          <FontAwesomeIcon icon={faPlus} className="add"/>
+                        </button>
+                        <input 
+                          className="input-quntity" 
+                          type="number" 
+                          value={item.quantity} 
+                          min="1" 
+                          readOnly 
+                          data-testid="cart-item-amount" 
+                        />
+                        <button 
+                          className="remove-quantity" 
+                          onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} 
+                          data-testid="cart-item-amount-decrease"
+                        >
+                          <FontAwesomeIcon icon={faMinus}/>
+                        </button>
                       </div>
-                    )}
-                  </div>
-                  <div className="add-and-remove-cart">
-                    <div className="cart-item-quantity">
-                      <button 
-                        className="add-quantity" 
-                        onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} 
-                        data-testid="cart-item-amount-increase"
-                      >
-                        <FontAwesomeIcon icon={faPlus} className="add"/>
-                      </button>
-                      <input 
-                        className="input-quntity" 
-                        type="number" 
-                        value={item.quantity} 
-                        min="1" 
-                        readOnly 
-                        data-testid="cart-item-amount" 
-                      />
-                      <button 
-                        className="remove-quantity" 
-                        onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} 
-                        data-testid="cart-item-amount-decrease"
-                      >
-                        <FontAwesomeIcon icon={faMinus}/>
-                      </button>
+                    </div>
+                    <div className="cart-item-image-container">
+                      <img src={item.image} alt={item.name} className="cart-item-image" />
                     </div>
                   </div>
-                  <div className="cart-item-image-container">
-                    <img src={item.image} alt={item.name} className="cart-item-image" />
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <p className="total" data-testid="cart-total">TOTAL: {calculateTotal()}</p>
           </div>
