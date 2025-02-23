@@ -17,8 +17,7 @@ const Header = () => {
     if (isCartOverlayOpen) {
       closeCartOverlay(); // Fecha o overlay se estiver aberto
     } else {
-      // Abre o overlay se estiver fechado
-      setIsCartOpen(true);
+      openCartOverlay(); // Abre o overlay se estiver fechado
     }
   };
 

@@ -1,10 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
-
-const CartContext = createContext();
-
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [isCartOverlayOpen, setIsCartOverlayOpen] = useState(false); // Estado para controlar o overlay
+  const [isCartOverlayOpen, setIsCartOverlayOpen] = useState(false);
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
@@ -49,8 +45,12 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.uniqueId !== uniqueId));
   };
 
+  const openCartOverlay = () => {
+    setIsCartOverlayOpen(true); // Função para abrir o overlay
+  };
+
   const closeCartOverlay = () => {
-    setIsCartOverlayOpen(false); // Fecha o overlay
+    setIsCartOverlayOpen(false); // Função para fechar o overlay
   };
 
   return (
@@ -62,14 +62,11 @@ export const CartProvider = ({ children }) => {
         updateCartItemAttributes,
         removeFromCart,
         isCartOverlayOpen,
+        openCartOverlay,
         closeCartOverlay,
       }}
     >
       {children}
     </CartContext.Provider>
   );
-};
-
-export const useCart = () => {
-  return useContext(CartContext);
 };
