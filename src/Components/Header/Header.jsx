@@ -15,6 +15,13 @@ const Header = () => {
   useEffect(() => {
     console.log("Carrinho aberto:", isCartOpen);
     console.log("Itens no carrinho:", cartItems);
+
+    if (isCartOpen) {
+      const timer = setTimeout(() => {
+        console.log("Carrinho totalmente renderizado");
+      }, 500); // Atraso de 500ms para garantir que o modal esteja visível
+      return () => clearTimeout(timer);
+    }
   }, [isCartOpen, cartItems]);
 
   // Função para converter strings em kebab-case
