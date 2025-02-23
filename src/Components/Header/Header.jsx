@@ -15,6 +15,8 @@ const Header = () => {
     console.log("Pathname atualizado:", location.pathname);
   }, [location.pathname]);
 
+  const sanitizeColor = (color) => color.replace(/#/g, "");
+
   const handleCartClick = () => {
     setIsCartOpen((prevState) => !prevState);
   };
