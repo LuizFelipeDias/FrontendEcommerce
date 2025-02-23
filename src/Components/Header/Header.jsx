@@ -98,6 +98,7 @@ const Header = () => {
                                   // Gera o data-testid corretamente, incluindo o # para cores hexadecimais
                                   const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option : toKebabCase(option)}`;
                                   const isSelected = item.attributes[groupName] === option;
+                                  console.log("Generated data-testid:", testId); // Log para depuração
                                   return (
                                     <button
                                       key={optIdx}
