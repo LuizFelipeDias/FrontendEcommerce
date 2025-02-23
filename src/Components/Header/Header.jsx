@@ -94,14 +94,14 @@ const Header = () => {
                               <h4 className="cart-attribute-title">{groupName}:</h4>
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
-                                  const optionKebabCase = option.replace(/\s+/g, "-").toLowerCase();
+                                  const optionFormatted = option.toUpperCase();
                                   return (
                                     <button
                                       key={optIdx}
                                       className={`cart-attribute-button ${item.attributes[groupName] === option ? "selected" : ""}`}
-                                      style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
+                                      style={groupName.toLowerCase() === "color" ? { backgroundColor: optionFormatted } : {}}
                                       onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                      data-testid={`cart-item-attribute-${kebabCaseName}-${optionKebabCase}${item.attributes[groupName] === option ? "-selected" : ""}`}
+                                      data-testid={`cart-item-attribute-${kebabCaseName}-${optionFormatted}${item.attributes[groupName] === option ? "-selected" : ""}`}
                                     >
                                       {groupName.toLowerCase() !== "color" && option}
                                     </button>
@@ -116,11 +116,15 @@ const Header = () => {
                   </div>
                   <div className="add-and-remove-cart">
                     <div className="cart-item-quantity">
-                      <button className="add-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} data-testid="cart-item-amount-increase">
+                      <button className="add-quantity" 
+                      onClick={() => handleQuantityChange(item.uniqueId, item.quantity + 1)} 
+                      data-testid="cart-item-amount-increase">
                         <FontAwesomeIcon icon={faPlus} className="add"/>
                       </button>
                       <input className="input-quntity" type="number" value={item.quantity} min="1" readOnly data-testid="cart-item-amount" />
-                      <button className="remove-quantity" onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} data-testid="cart-item-amount-decrease">
+                      <button className="remove-quantity" 
+                      onClick={() => handleQuantityChange(item.uniqueId, item.quantity - 1)} 
+                      data-testid="cart-item-amount-decrease">
                         <FontAwesomeIcon icon={faMinus}/>
                       </button>
                     </div>
