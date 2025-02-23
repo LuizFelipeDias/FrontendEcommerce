@@ -7,17 +7,15 @@
     padding: 15px 7%;
 }
 
-/* Estilizando o texto do logo */
 .logo-text {
     font-size: 3em;
-    color: white; /* Cor interna do texto */
-    -webkit-text-stroke-width: 2px; /* Largura da borda */
-    -webkit-text-stroke-color: #00ff00; /* Cor verde na borda */
+    color: white;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #00ff00;
     font-weight: bold;
     letter-spacing: 2px;
 }
 
-/* Estilizando a header */
 nav ul {
     flex: 1;
     list-style: none;
@@ -32,7 +30,6 @@ nav ul li {
     position: relative;
 }
 
-/* Estilizando os links */
 nav ul li a {
     text-decoration: none;
     color: black;
@@ -40,7 +37,6 @@ nav ul li a {
     transition: color 0.3s;
 }
 
-/* Criando a linha que aparece ao passar o mouse */
 nav ul li::after {
     content: "";
     width: 0;
@@ -53,12 +49,10 @@ nav ul li::after {
     transition: width 0.3s ease-in-out;
 }
 
-/* Linha aparece ao passar o mouse */
 nav ul li:hover::after {
     width: 100%;
 }
 
-/* Ícone do carrinho */
 .cart {
     width: 24px;
     margin-left: 40px;
@@ -67,7 +61,6 @@ nav ul li:hover::after {
     cursor: pointer;
 }
 
-/* Caixa de pesquisa */
 .searchBox {
     display: flex;
     align-items: center;
@@ -92,7 +85,6 @@ nav ul li:hover::after {
     color: #00ff00;
 }
 
-/* Ícone de busca */
 .searchIcon {
     color: #00ff00;
     font-size: 20px;
@@ -100,32 +92,29 @@ nav ul li:hover::after {
     margin-left: 10px;
 }
 
-button{
+button {
     background-color: transparent;
     border: none;
 }
 
-/* Container dos ícones */
 .header-icon-container {
     display: flex;
     align-items: center;
-    position: relative; /* Mantém a estrutura alinhada */
+    position: relative;
 }
 
-/* Ícone do carrinho */
 .header-icon-container .shopping-cart {
     background: transparent;
     cursor: pointer;
-    font-size: 24px; /* Ajuste para o tamanho do ícone */
+    font-size: 24px;
     color: #00ff00;
-    position: relative; /* Necessário para o contador se posicionar corretamente */
+    position: relative;
 }
 
-/* Contador de produtos no carrinho */
 .header-icon-container .shopping-cart .products-count {
     position: absolute;
-    top: -5px;  /* Ajuste fino para centralizar no ícone */
-    right: -10px; /* Move o círculo vermelho para a direita */
+    top: -5px;
+    right: -10px;
     background: red;
     color: white;
     font-size: 12px;
@@ -146,7 +135,6 @@ button{
     cursor: pointer;
 }
 
-
 .cart-container {
     position: relative;
     display: inline-block;
@@ -154,9 +142,9 @@ button{
 
 .cart-dropdown {
     position: absolute;
-    top: 100%; /* Fica logo abaixo do botão */
+    top: 100%;
     left: 50%;
-    transform: translateX(-50%); /* Centraliza horizontalmente */
+    transform: translateX(-50%);
     background: white;
     border: 1px solid #ddd;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -172,7 +160,7 @@ button{
     list-style: none;
     padding: 0;
     margin: 0;
-    text-align: center; /* Centraliza o texto dos itens */
+    text-align: center;
 }
 
 .cart-dropdown li {
@@ -183,8 +171,6 @@ button{
 .cart-dropdown li:last-child {
     border-bottom: none;
 }
-
-
 
 .products-count {
     position: absolute;
@@ -201,9 +187,6 @@ button{
     justify-content: center;
 }
 
-/* modal.css */
-
-/* Centralizar o modal do carrinho */
 .cart-modal {
     position: fixed;
     top: 80px;
@@ -215,15 +198,15 @@ button{
     z-index: 1000;
     overflow-y: auto;
     border-radius: 10px;
-    visibility: hidden; /* Alterado */
-    opacity: 0; /* Alterado */
+    visibility: hidden;
+    opacity: 0;
     padding: 20px;
-    transition: visibility 0.3s, opacity 0.3s; /* Adicionado */
+    transition: visibility 0.3s, opacity 0.3s;
 }
 
 .cart-modal.active {
-    visibility: visible; /* Alterado */
-    opacity: 1; /* Alterado */
+    visibility: visible;
+    opacity: 1;
 }
 
 .cart-title {
@@ -234,7 +217,6 @@ button{
     margin-bottom: 20px;
 }
 
-/* Configuração do layout dos itens no carrinho */
 .cart-item-container {
     display: flex;
     align-items: flex-start;
@@ -260,7 +242,6 @@ button{
     width: 100%;
 }
 
-
 .cart-item-info {
     flex: 1;
     display: flex;
@@ -274,10 +255,9 @@ button{
     margin-bottom: 5px;
 }
 
-.input-quantity{
+.input-quantity {
     gap: 3rem;
 }
-
 
 .cart-item-price {
     font-size: 1em;
@@ -285,7 +265,6 @@ button{
     font-family: serif;
 }
 
-/* Quantidade dos itens */
 .cart-item-quantity {
     display: flex;
     align-items: center;
@@ -316,7 +295,6 @@ button{
     text-align: center;
 }
 
-/* Atributos dos itens */
 .cart-item-attributes {
     display: flex;
     grid-template-columns: repeat(3, 1fr);
@@ -325,7 +303,6 @@ button{
     flex-direction: column;
 }
 
-/* Overlay para fundo escuro quando o modal estiver ativo */
 .overlay {
     position: fixed;
     top: 0;
@@ -337,10 +314,8 @@ button{
     display: none;
 }
 
-
 .overlay.active {
     display: block;
-    pointer-events: none; /* Evita que o overlay bloqueie cliques */
 }
 
 .cart-close {
@@ -353,12 +328,6 @@ button{
     cursor: pointer;
 }
 
-.cart-attribute-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Espaçamento entre os botões */
-}
-
 .cart-attribute-button {
     color: rgb(0, 0, 0);
     border: 1px solid #ccc;
@@ -366,7 +335,7 @@ button{
     background-color: #fff;
     border-radius: 5px;
     padding: 8px 12px;
-    transition: background-color 0.3s, border-color 0.3s; /* Adicionado */
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .cart-attribute-button.selected {
@@ -378,75 +347,66 @@ button{
     border-color: #007bff;
 }
 
-/* Atributos do produto */
 .cart-attribute-group {
-  display: flex;
-  flex-direction: column; /* Coloca os elementos um abaixo do outro */
-  align-items: flex-start; /* Alinha os itens à esquerda */
-  margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0.5rem;
 }
 
 .cart-attribute-buttons {
-  display: flex;
-  flex-wrap: wrap; /* Mantém os botões alinhados corretamente */
-  gap: 1rem; /* Dá um espaçamento entre os botões */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .cart-attribute-title {
-  margin-bottom: 4px; /* Reduz o espaço entre o título e os botões */
+    margin-bottom: 4px;
 }
 
 .dropdown-menu {
-  display: flex;
-  flex-direction: column; /* Organiza os itens verticalmente */
-  top: 100%;
-  left: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
-  min-width: 150px; /* Define uma largura mínima */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-width: 150px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 .dropdown-menu li {
-  padding: 8px 12px;
-  list-style: none;
+    padding: 8px 12px;
+    list-style: none;
 }
 
 .dropdown-menu li a {
-  text-decoration: none;
-  color: black;
-  display: block;
+    text-decoration: none;
+    color: black;
+    display: block;
 }
 
 .dropdown-menu li a:hover {
-  background-color: #f4f4f4;
+    background-color: #f4f4f4;
 }
 
-/* Responsividade */
+.total {
+    text-align: center;
+    margin-top: 1rem;
+}
+
 @media (max-width: 768px) {
     .cart-modal {
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%); /* Centraliza o modal */
+        transform: translate(-50%, -50%);
         width: 90%;
         max-height: 90vh;
         right: auto;
     }
-}
 
-.cart-modal input {
-    width: 50px;
-    margin-left: 10px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-
-/* Responsividade */
-@media screen and (max-width: 768px) {
     .header {
         flex-direction: column;
         height: auto;
@@ -459,37 +419,8 @@ button{
         gap: 1rem;
     }
 
-    .cart-modal {
-        width: 90%; /* Aumenta a largura em telas menores */
-        max-height: 80vh; /* Permite que o modal ocupe mais espaço */
-        right: 5%; /* Ajusta a posição para centralizar */
-    }
-
     .searchBox {
-        width: 90%; /* Ocupar quase toda a largura disponível */
+        width: 90%;
         max-width: 250px;
     }
 }
-
-.total{
-    text-align: center;
-    margin-top: 1rem;
-}
-
-/* end modal */
-
-/* Responsividade */
-@media screen and (max-width: 768px) {
-    .header {
-      flex-direction: column;
-      height: auto;
-      padding: 1rem;
-    }
-  
-    .header .header-links {
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-  }
-
