@@ -1,3 +1,7 @@
+import React, { createContext, useContext, useState } from "react";
+
+const CartContext = createContext();
+
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isCartOverlayOpen, setIsCartOverlayOpen] = useState(false);
@@ -69,4 +73,8 @@ export const CartProvider = ({ children }) => {
       {children}
     </CartContext.Provider>
   );
+};
+
+export const useCart = () => {
+  return useContext(CartContext);
 };
