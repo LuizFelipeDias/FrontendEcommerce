@@ -15,6 +15,7 @@ const ProductSelected = () => {
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [isAllAttributesSelected, setIsAllAttributesSelected] = useState(false);
   const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300"); // Estado para a imagem principal
+  const [isCartOpen, setIsCartOpen] = useState(false); // Estado para controlar a visibilidade do modal
 
   // Verifica se todos os atributos foram selecionados
   useEffect(() => {
@@ -65,6 +66,9 @@ const ProductSelected = () => {
 
     addToCart(cartItem);
     console.log("Produto adicionado ao carrinho:", cartItem);
+
+    // Abre o modal do carrinho automaticamente
+    setIsCartOpen(true); // Atualiza o estado para abrir o modal
   };
 
   // Agrupa atributos pelo nome
@@ -115,7 +119,7 @@ const ProductSelected = () => {
               <h4 className="attribute-title">{name}:</h4>
               <div className="attribute-buttons">
                 {attributes.map((attr, idx) => {
-                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value}`; // Mantém o #
+                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value.replace(/#/g, "")}`;
                   console.log("Renderizando botão com data-testid:", testId); // Depuração
                   return (
                     <button
@@ -164,6 +168,17 @@ const ProductSelected = () => {
         <p className="product-description">
           {product?.description || "Nenhuma descrição disponível."}
         </p>
+      </div>
+
+      {/* Modal do carrinho */}
+      <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay">
+        <button className="close-modal" onClick={() => setIsCartOpen(false)}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+        <div className="cart-modal-content">
+          <h2 className="cart-title">YOUR BAG</h2>
+          {/* Conteúdo do carrinho */}
+        </div>
       </div>
     </div>
   );
