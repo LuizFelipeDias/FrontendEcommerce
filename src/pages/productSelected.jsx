@@ -114,19 +114,23 @@ const ProductSelected = () => {
             <div key={index} className="attribute-group">
               <h4 className="attribute-title">{name}:</h4>
               <div className="attribute-buttons">
-                {attributes.map((attr, idx) => (
-                  <button
-                    key={idx}
-                    className={`attribute-button ${
-                      selectedAttributes[name] === attr.value ? "selected" : ""
-                    }`}
-                    style={name.toLowerCase() === "color" ? { backgroundColor: attr.value } : {}}
-                    onClick={() => handleSelectAttribute(name, attr.value)}
-                    data-testid={`product-attribute-${name.toLowerCase()}-${attr.value.replace(/#/g, "")}`} // Adiciona data-testid
-                  >
-                    {name.toLowerCase() !== "color" && attr.value}
-                  </button>
-                ))}
+                {attributes.map((attr, idx) => {
+                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value}`; // Mantém o #
+                  console.log("Renderizando botão com data-testid:", testId); // Depuração
+                  return (
+                    <button
+                      key={idx}
+                      className={`attribute-button ${
+                        selectedAttributes[name] === attr.value ? "selected" : ""
+                      }`}
+                      style={name.toLowerCase() === "color" ? { backgroundColor: attr.value } : {}}
+                      onClick={() => handleSelectAttribute(name, attr.value)}
+                      data-testid={testId} // Adiciona data-testid
+                    >
+                      {name.toLowerCase() !== "color" && attr.value}
+                    </button>
+                  );
+                })}
               </div>
               {!selectedAttributes[name] && (
                 <p className="attribute-error">Please select an option..</p>
