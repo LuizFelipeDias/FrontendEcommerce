@@ -11,16 +11,22 @@ const Header = () => {
   const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
   const location = useLocation();
 
+  // Depuração: Verifica se o carrinho está aberto e exibe os itens no carrinho
   useEffect(() => {
-    console.log("Carrinho aberto:", isCartOpen); // Depuração: Verifica se o carrinho está aberto
-    console.log("Itens no carrinho:", cartItems); // Depuração: Verifica os itens no carrinho
+    console.log("Carrinho aberto:", isCartOpen);
+    console.log("Itens no carrinho:", cartItems);
   }, [isCartOpen, cartItems]);
 
   // Função para converter strings em kebab-case
   const toKebabCase = (str) => str.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
 
   const handleCartClick = () => {
-    setIsCartOpen((prevState) => !prevState);
+    console.log("Botão do carrinho clicado. Estado anterior:", isCartOpen); // Depuração
+    setIsCartOpen((prevState) => {
+      const newState = !prevState;
+      console.log("Novo estado do carrinho:", newState); // Depuração
+      return newState;
+    });
   };
 
   const handleQuantityChange = (uniqueId, newQuantity) => {
