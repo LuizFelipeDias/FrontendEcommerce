@@ -105,6 +105,7 @@ const ProductSelected = () => {
           className="product-image"
           src={mainImage} // Usa a imagem principal atual
           alt={product?.name}
+          data-testid='product-gallery'
         />
       </div>
 
@@ -150,7 +151,7 @@ const ProductSelected = () => {
               className={`add-to-cart ${!isAllAttributesSelected ? "disabled" : ""}`}
               onClick={handleAddToCart}
               disabled={!isAllAttributesSelected}
-              data-testid="add-to-cart-button" // Adiciona data-testid
+              data-testid='add-to-cart' // Adiciona data-testid
             >
               ADD TO CART <FontAwesomeIcon icon={faCartShopping} /> <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -162,7 +163,7 @@ const ProductSelected = () => {
           <p className="text-out-of-stock">This product is out of stock.</p>
         )}
 
-        <p className="product-description">
+        <p className="product-description"  data-testid='product-description'>
           {product?.description || "Nenhuma descrição disponível."}
         </p>
       </div>
