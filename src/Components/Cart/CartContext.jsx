@@ -4,7 +4,6 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [isCartOverlayOpen, setIsCartOverlayOpen] = useState(false); // Estado para controlar a visibilidade do overlay
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
@@ -25,8 +24,8 @@ export const CartProvider = ({ children }) => {
         return [...prevItems, { ...product, quantity: 1, uniqueId: Date.now() }];
       }
     });
-
-    setIsCartOverlayOpen(true); // Abre o overlay do carrinho após adicionar o produto
+    
+    setIsOverlayOpen(true); // Abre o overlay ao adicionar um item
   };
 
   const updateCartItemQuantity = (uniqueId, newQuantity) => {
@@ -53,22 +52,8 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.uniqueId !== uniqueId));
   };
 
-  const toggleCartOverlay = () => {
-    setIsCartOverlayOpen((prev) => !prev); // Alterna a visibilidade do overlay
-  };
-
   return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        updateCartItemQuantity,
-        updateCartItemAttributes,
-        removeFromCart,
-        isCartOverlayOpen, // Expõe o estado do overlay
-        toggleCartOverlay, // Expõe a função para alternar o overlay
-      }}
-    >
+    <CartContext.Provider value={{ cartItems, addToCart, updateCartItemQuantity, updateCartItemAttributes, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

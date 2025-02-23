@@ -63,7 +63,7 @@ const ProductSelected = () => {
       quantity: 1,
     };
 
-    addToCart(cartItem); // Isso já deve abrir o overlay do carrinho
+    addToCart(cartItem);
     console.log("Produto adicionado ao carrinho:", cartItem);
   };
 
