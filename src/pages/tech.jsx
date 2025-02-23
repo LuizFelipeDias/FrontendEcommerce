@@ -21,10 +21,18 @@ const Product = () => {
       })
       .catch(() => setProducts([]));
   }, []);
-  const toKebabCase = (str) =>
-    str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
-  const handleProductClick = (product) => {
+ // Função para normalizar nomes para serem usados como `data-testid`
+  const toKebabCase = (str) =>
+    str
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-") // Remove caracteres especiais
+      .replace(/^-+|-+$/g, ""); // Remove hífens extras
+
+  const handleProductClick = (product, event) => {
+    if (event.target.tagName === "BUTTON" || event.target.closest(".quick-buy-btn")) {
+      return; // Evita que clique no botão dispare a navegação
+    }
     navigate(`/product/${product.id}`, { state: { product } });
   };
 
@@ -75,7 +83,7 @@ const Product = () => {
                 key={product.id}
                 data-testid={`product-${toKebabCase(product.name)}`}
                 className="product border rounded-lg p-4 shadow-md cursor-pointer relative product-card"
-                onClick={() => handleProductClick(product)}
+                onClick={(e) => handleProductClick(product, e)}
               >
                 <div className={`image ${product.in_stock === 0 ? "out-of-stock" : ""}`}>
                   {product.images?.length > 0 ? (
