@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useCart } from "../Components/Cart/CartContext";
 
-
 const Product = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -23,7 +22,8 @@ const Product = () => {
       .catch(() => setProducts([]));
   }, []);
 
-  const toKebabCase = (str) => str.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+  const toKebabCase = (str) =>
+    str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
   const handleProductClick = (product) => {
     navigate(`/product/${product.id}`, { state: { product } });
@@ -43,8 +43,7 @@ const Product = () => {
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([key, value]) => `${key}:${value}`)
       .join("-")}`;
-    
-    // Cria um objeto com os atributos disponíveis
+
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
@@ -58,15 +57,14 @@ const Product = () => {
       image: product.images?.[0] || "https://via.placeholder.com/300",
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes }, // Copia os atributos selecionados
-      availableAttributes, // Inclui os atributos disponíveis
+      attributes: { ...selectedAttributes },
+      availableAttributes,
       quantity: 1,
     };
 
     addToCart(cartItem);
     console.log("Produto adicionado ao carrinho:", cartItem);
   };
-
 
   return (
     <div>
@@ -76,9 +74,9 @@ const Product = () => {
             products.map((product) => (
               <div
                 key={product.id}
+                data-testid={`product-${toKebabCase(product.name)}`}
                 className="product border rounded-lg p-4 shadow-md cursor-pointer relative product-card"
                 onClick={() => handleProductClick(product)}
-                data-testid={`product-${toKebabCase(product.name)}`}
               >
                 <div className={`image ${product.in_stock === 0 ? "out-of-stock" : ""}`}>
                   {product.images?.length > 0 ? (
