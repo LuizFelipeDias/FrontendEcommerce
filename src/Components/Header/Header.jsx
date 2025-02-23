@@ -95,7 +95,8 @@ const Header = () => {
                               <h4 className="cart-attribute-title">{groupName}:</h4>
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
-                                  const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option.replace("#", "") : toKebabCase(option)}`;
+                                  // Gera o data-testid corretamente, incluindo o # para cores hexadecimais
+                                  const testId = `product-attribute-${kebabCaseName}-${option.startsWith("#") ? option : toKebabCase(option)}`;
                                   const isSelected = item.attributes[groupName] === option;
                                   return (
                                     <button
