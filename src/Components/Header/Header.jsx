@@ -6,8 +6,9 @@ import { useCart } from "../Cart/CartContext";
 import "./Header.css";
 import Logo from "../../assets/Logo";
 
+// Função para formatar os atributos corretamente
 const toKebabCase = (str) => str.replace(/\s+/g, "-").toLowerCase();
-const formatColorTestId = (color) => color.startsWith("#") ? color.slice(1).toUpperCase() : toKebabCase(color);
+const formatColorTestId = (color) => color.startsWith("#") ? color.replace("#", "").toUpperCase() : toKebabCase(color);
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
