@@ -98,6 +98,7 @@ const Header = () => {
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
                                   const sanitizedOption = toKebabCase(sanitizeColor(option));
+                                  console.log(`Test ID: cart-item-attribute-${kebabCaseName}-${sanitizedOption}`);
                                   return (
                                     <button
                                       key={optIdx}
