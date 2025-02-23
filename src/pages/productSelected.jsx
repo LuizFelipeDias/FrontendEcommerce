@@ -7,7 +7,6 @@ import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Swiper, SwiperSlide } from 'swiper/react'; // Import Swiper and SwiperSlide
 import 'swiper/css'; // Basic Swiper styles
 
-
 const ProductSelected = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -87,7 +86,6 @@ const ProductSelected = () => {
           slidesPerView={5} // Exibe 5 slides por vez
           spaceBetween={12} // Espaço entre os slides
           className="swiper-container"
-          
         >
           {product?.images?.map((image, index) => (
             <SwiperSlide key={index}>
@@ -122,10 +120,11 @@ const ProductSelected = () => {
                     className={`attribute-button ${
                       selectedAttributes[name] === attr.value ? "selected" : ""
                     }`}
-                    style={name === "Color" ? { backgroundColor: attr.value } : {}}
+                    style={name.toLowerCase() === "color" ? { backgroundColor: attr.value } : {}}
                     onClick={() => handleSelectAttribute(name, attr.value)}
+                    data-testid={`product-attribute-${name.toLowerCase()}-${attr.value.replace(/#/g, "")}`} // Adiciona data-testid
                   >
-                    {name !== "Color" && attr.value}
+                    {name.toLowerCase() !== "color" && attr.value}
                   </button>
                 ))}
               </div>
@@ -146,6 +145,7 @@ const ProductSelected = () => {
               className={`add-to-cart ${!isAllAttributesSelected ? "disabled" : ""}`}
               onClick={handleAddToCart}
               disabled={!isAllAttributesSelected}
+              data-testid="add-to-cart-button" // Adiciona data-testid
             >
               ADD TO CART <FontAwesomeIcon icon={faCartShopping} /> <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -156,7 +156,7 @@ const ProductSelected = () => {
         ) : (
           <p className="text-out-of-stock">This product is out of stock.</p>
         )}
-        
+
         <p className="product-description">
           {product?.description || "Nenhuma descrição disponível."}
         </p>
