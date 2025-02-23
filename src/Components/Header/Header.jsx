@@ -8,7 +8,7 @@ import Logo from "../../assets/Logo";
 
 // Função para formatar os atributos corretamente
 const toKebabCase = (str) => str.replace(/\s+/g, "-").toLowerCase();
-const formatColorTestId = (color) => color.startsWith("#") ? color.replace("#", "").toUpperCase() : toKebabCase(color);
+const formatColorTestId = (color) => (color.startsWith("#") ? color.slice(1).toUpperCase() : toKebabCase(color));
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -56,18 +56,13 @@ const Header = () => {
 
       <nav>
         <ul>
-          <li>
-            <Link to="/" data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}>Home</Link>
-          </li>
-          <li>
-            <Link to="/all" data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}>all</Link>
-          </li>
-          <li>
-            <Link to="/clothes" data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}>clothes</Link>
-          </li>
-          <li>
-            <Link to="/tech" data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}>tech</Link>
-          </li>
+          {["/", "/all", "/clothes", "/tech"].map((path, index) => (
+            <li key={index}>
+              <Link to={path} data-testid={location.pathname === path ? "active-category-link" : "category-link"}>
+                {path.replace("/", "") || "Home"}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
 
