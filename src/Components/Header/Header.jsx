@@ -11,11 +11,9 @@ const Header = () => {
   const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart } = useCart();
   const location = useLocation();
 
-  useEffect(() => {
-    console.log("Pathname atualizado:", location.pathname);
-  }, [location.pathname]);
+  useEffect(() => {}, [location.pathname]);
 
-  const sanitizeColor = (color) => color.replace(/#/g, "");
+  const sanitizeColor = (color) => color.replace(/#/g, "").trim().toLowerCase();
   const toKebabCase = (str) => str.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
 
   const handleCartClick = () => {
@@ -98,7 +96,6 @@ const Header = () => {
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
                                   const sanitizedOption = toKebabCase(sanitizeColor(option));
-                                  console.log(`Test ID: cart-item-attribute-${kebabCaseName}-${sanitizedOption}`);
                                   return (
                                     <button
                                       key={optIdx}
