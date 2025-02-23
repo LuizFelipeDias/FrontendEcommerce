@@ -6,9 +6,9 @@ import { useCart } from "../Cart/CartContext";
 import "./Header.css";
 import Logo from "../../assets/Logo";
 
-// Função para formatar os atributos corretamente
 const toKebabCase = (str) => str.replace(/\s+/g, "-").toLowerCase();
-const formatColorTestId = (color) => (color.startsWith("#") ? color.slice(1).toUpperCase() : toKebabCase(color));
+const formatColorTestId = (color) =>
+  color.startsWith("#") ? `color-${color.replace("#", "").toUpperCase()}` : `color-${toKebabCase(color)}`;
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -19,9 +19,7 @@ const Header = () => {
     console.log("Pathname atualizado:", location.pathname);
   }, [location.pathname]);
 
-  const handleCartClick = () => {
-    setIsCartOpen((prevState) => !prevState);
-  };
+  const handleCartClick = () => setIsCartOpen((prevState) => !prevState);
 
   const handleQuantityChange = (uniqueId, newQuantity) => {
     if (newQuantity < 1) {
@@ -34,45 +32,35 @@ const Header = () => {
   const handleAttributeChange = (uniqueId, attributeName, newValue) => {
     const item = cartItems.find((item) => item.uniqueId === uniqueId);
     if (item) {
-      const updatedAttributes = {
-        ...item.attributes,
-        [attributeName]: newValue,
-      };
-      updateCartItemAttributes(uniqueId, updatedAttributes);
+      updateCartItemAttributes(uniqueId, { ...item.attributes, [attributeName]: newValue });
     }
   };
 
-  const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-  };
+  const calculateTotal = () => cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
 
   return (
     <div className="header">
       <div className={`overlay ${isCartOpen ? "active" : ""}`} onClick={handleCartClick}></div>
-
       <div className="logo-container">
         <Logo />
       </div>
-
       <nav>
         <ul>
-          {["/", "/all", "/clothes", "/tech"].map((path, index) => (
-            <li key={index}>
-              <Link to={path} data-testid={location.pathname === path ? "active-category-link" : "category-link"}>
-                {path.replace("/", "") || "Home"}
+          {["Home", "All", "Clothes", "Tech"].map((category) => (
+            <li key={category}>
+              <Link to={`/${category.toLowerCase()}`} data-testid={location.pathname === `/${category.toLowerCase()}` ? "active-category-link" : "category-link"}>
+                {category}
               </Link>
             </li>
           ))}
         </ul>
       </nav>
-
       <div className="cart-container">
         <button onClick={handleCartClick} className="cart-btn" data-testid="cart-btn">
           <FontAwesomeIcon icon={faCartShopping} className="cart" />
           <div className="products-count">{cartItems.length}</div>
         </button>
-
-        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOpen ? "auto" : "none" }}> 
+        <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOpen ? "auto" : "none" }}>
           <button className="close-modal" onClick={handleCartClick}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
@@ -91,7 +79,6 @@ const Header = () => {
                             <h4 className="cart-attribute-title">{groupName}:</h4>
                             <div className="cart-attribute-buttons">
                               {attributes.map((option, optIdx) => {
-                                const kebabAttribute = toKebabCase(groupName);
                                 const formattedTestId = formatColorTestId(option);
                                 const isSelected = item.attributes[groupName] === option;
                                 return (
@@ -100,7 +87,7 @@ const Header = () => {
                                     className={`cart-attribute-button ${isSelected ? "selected" : ""}`}
                                     style={groupName.toLowerCase() === "color" ? { backgroundColor: option } : {}}
                                     onClick={() => handleAttributeChange(item.uniqueId, groupName, option)}
-                                    data-testid={`product-attribute-${kebabAttribute}-${formattedTestId}${isSelected ? "-selected" : ""}`}
+                                    data-testid={`product-attribute-${formattedTestId}${isSelected ? "-selected" : ""}`}
                                   >
                                     {groupName.toLowerCase() !== "color" && option}
                                   </button>
