@@ -7,7 +7,15 @@ import "./Header.css";
 import Logo from "../../assets/Logo";
 
 const Header = () => {
-  const { cartItems = [], updateCartItemQuantity, updateCartItemAttributes, removeFromCart, isCartOverlayOpen, closeCartOverlay } = useCart();
+  const { 
+    cartItems = [], 
+    updateCartItemQuantity, 
+    updateCartItemAttributes, 
+    removeFromCart, 
+    isCartOverlayOpen, 
+    openCartOverlay, // Adicionado aqui
+    closeCartOverlay 
+  } = useCart();
   const location = useLocation();
 
   // Função para converter strings em kebab-case
