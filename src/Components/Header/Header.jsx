@@ -94,7 +94,7 @@ const Header = () => {
                               <h4 className="cart-attribute-title">{groupName}:</h4>
                               <div className="cart-attribute-buttons">
                                 {attributes.map((option, optIdx) => {
-                                  const optionFormatted = option.toUpperCase();
+                                  const optionKebabCase = option.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
                                   return (
                                     <button
                                       key={optIdx}
