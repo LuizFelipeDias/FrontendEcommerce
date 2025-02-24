@@ -22,24 +22,25 @@ const Product = () => {
       .catch(() => setProducts([]));
   }, []);
 
-  // Função para adicionar ao carrinho com os primeiros atributos selecionados
+  const handleProductClick = (product) => {
+    navigate(`/product/${product.id}`, { state: { product } });
+  };
+
   const handleAddToCart = (product) => {
     if (!product || product.in_stock === 0) return;
 
-    // Seleciona os primeiros valores de cada atributo
     const selectedAttributes = product.attributes?.reduce((acc, attr) => {
       if (!acc[attr.name]) {
-        acc[attr.name] = attr.value; // Seleciona o primeiro valor disponível
+        acc[attr.name] = attr.value;
       }
       return acc;
     }, {});
 
-    // Gera o uniqueId com base nos atributos selecionados
     const uniqueId = `${product.id}-${Object.entries(selectedAttributes || {})
-      .sort((a, b) => a[0].localeCompare(b[0])) // Ordena os atributos por nome
-      .map(([key, value]) => `${key}:${value}`) // Formata como "nome:valor"
-      .join("-")}`; // Junta tudo com "-"
-
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([key, value]) => `${key}:${value}`)
+      .join("-")}`;
+    
     // Cria um objeto com os atributos disponíveis
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
@@ -59,9 +60,10 @@ const Product = () => {
       quantity: 1,
     };
 
-    addToCart(cartItem); // Adiciona ao carrinho
+    addToCart(cartItem);
     console.log("Produto adicionado ao carrinho:", cartItem);
   };
+
 
   return (
     <div>
@@ -71,10 +73,10 @@ const Product = () => {
             products.map((product) => (
               <div
                 key={product.id}
-                className="product border rounded-lg p-4 shadow-md cursor-pointer relative"
+                className="product border rounded-lg p-4 shadow-md cursor-pointer relative product-card"
                 onClick={() => handleProductClick(product)}
               >
-                <div className={`image ${product.in_stock == 0 ? "out-of-stock" : ""}`}>
+                <div className={`image ${product.in_stock === 0 ? "out-of-stock" : ""}`}>
                   {product.images?.length > 0 ? (
                     <img src={product.images[0]} alt={product.name} className="w-full h-40 object-cover rounded" />
                   ) : (
@@ -93,19 +95,19 @@ const Product = () => {
                   <button className="product-info">
                     See Details <FontAwesomeIcon icon={faCircleInfo} />
                   </button>
-
-                  {product.in_stock > 0 && (
-                    <button
-                      className="add-cart"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Impede que o clique no botão propague para o contêiner do produto
-                        handleAddToCart(product);
-                      }}
-                    >
-                      Add to Cart <FontAwesomeIcon icon={faCartShopping} /> <FontAwesomeIcon icon={faPlus} />
-                    </button>
-                  )}
                 </div>
+
+                {product.in_stock > 0 && (
+                  <button
+                    className="quick-buy-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToCart(product);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCartShopping} />
+                  </button>
+                )}
               </div>
             ))
           ) : (

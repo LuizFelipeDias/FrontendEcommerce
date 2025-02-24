@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useCart } from "../Components/Cart/CartContext";
+import { faCircleInfo, faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useCart } from "../Components/Cart/CartContext"; // Importe o contexto do carrinho
 
 const Product = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addToCart } = useCart(); // Use o hook do carrinho
 
   useEffect(() => {
     fetch("https://backend-production-6806.up.railway.app/backend/consultas/categories/tech.php")
@@ -22,10 +22,7 @@ const Product = () => {
       .catch(() => setProducts([]));
   }, []);
 
-  const handleProductClick = (product, event) => {
-    if (event.target.tagName === "BUTTON" || event.target.closest(".quick-buy-btn")) {
-      return;
-    }
+  const handleProductClick = (product) => {
     navigate(`/product/${product.id}`, { state: { product } });
   };
 
@@ -43,7 +40,8 @@ const Product = () => {
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([key, value]) => `${key}:${value}`)
       .join("-")}`;
-
+    
+    // Cria um objeto com os atributos disponíveis
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
@@ -57,14 +55,15 @@ const Product = () => {
       image: product.images?.[0] || "https://via.placeholder.com/300",
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes },
-      availableAttributes,
+      attributes: { ...selectedAttributes }, // Copia os atributos selecionados
+      availableAttributes, // Inclui os atributos disponíveis
       quantity: 1,
     };
 
     addToCart(cartItem);
     console.log("Produto adicionado ao carrinho:", cartItem);
   };
+
 
   return (
     <div>
@@ -74,9 +73,8 @@ const Product = () => {
             products.map((product) => (
               <div
                 key={product.id}
-                data-testid={`product-${product.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}`}
                 className="product border rounded-lg p-4 shadow-md cursor-pointer relative product-card"
-                onClick={(e) => handleProductClick(product, e)}
+                onClick={() => handleProductClick(product)}
               >
                 <div className={`image ${product.in_stock === 0 ? "out-of-stock" : ""}`}>
                   {product.images?.length > 0 ? (
@@ -90,7 +88,7 @@ const Product = () => {
                 <h2 className="product-text">{product.name}</h2>
 
                 <p className="price-text">
-                  {parseFloat(product.amount).toFixed(2)}
+                  {parseFloat(product.amount).toFixed(2)} {product.currency_symbol}
                 </p>
 
                 <div className="info-and-cart">
