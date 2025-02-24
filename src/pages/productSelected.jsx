@@ -11,7 +11,7 @@ const ProductSelected = () => {
   const { id } = useParams();
   const location = useLocation();
   const product = location.state?.product;
-  const { addToCart, openCart } = useCart(); // Adicione openCart ao destructuring
+  const { addToCart, openCart } = useCart();
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [isAllAttributesSelected, setIsAllAttributesSelected] = useState(false);
   const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300");
@@ -110,32 +110,39 @@ const ProductSelected = () => {
       <div className="product-details">
         <h2 className="product-title">{product?.name}</h2>
         <div className="product-attributes">
-          {Object.entries(groupedAttributes || {}).map(([name, attributes], index) => (
-            <div key={index} className="attribute-group">
-              <h4 className="attribute-title">{name}:</h4>
-              <div className="attribute-buttons">
-                {attributes.map((attr, idx) => {
-                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value}`;
-                  return (
-                    <button
-                      key={idx}
-                      className={`attribute-button ${
-                        selectedAttributes[name] === attr.value ? "selected" : ""
-                      }`}
-                      style={name.toLowerCase() === "color" ? { backgroundColor: attr.value } : {}}
-                      onClick={() => handleSelectAttribute(name, attr.value)}
-                      data-testid={testId}
-                    >
-                      {name.toLowerCase() !== "color" && attr.value}
-                    </button>
-                  );
-                })}
+          {Object.entries(groupedAttributes || {}).map(([name, attributes], index) => {
+            const attributeKebabCase = name.toLowerCase().replace(/\s+/g, '-'); // Converte o nome do atributo para kebab case
+            return (
+              <div
+                key={index}
+                className="attribute-group"
+                data-testid={`product-attribute-${attributeKebabCase}`} // Aplica o data-testid ao contêiner de atributos
+              >
+                <h4 className="attribute-title">{name}:</h4>
+                <div className="attribute-buttons">
+                  {attributes.map((attr, idx) => {
+                    const testId = `product-attribute-${name.toLowerCase()}-${attr.value}`;
+                    return (
+                      <button
+                        key={idx}
+                        className={`attribute-button ${
+                          selectedAttributes[name] === attr.value ? "selected" : ""
+                        }`}
+                        style={name.toLowerCase() === "color" ? { backgroundColor: attr.value } : {}}
+                        onClick={() => handleSelectAttribute(name, attr.value)}
+                        data-testid={testId}
+                      >
+                        {name.toLowerCase() !== "color" && attr.value}
+                      </button>
+                    );
+                  })}
+                </div>
+                {!selectedAttributes[name] && (
+                  <p className="attribute-error">Please select an option..</p>
+                )}
               </div>
-              {!selectedAttributes[name] && (
-                <p className="attribute-error">Please select an option..</p>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <h3 className="product-price">
