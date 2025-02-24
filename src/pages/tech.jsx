@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useCart } from "../Components/Cart/CartContext"; // Importe o contexto do carrinho
+import { faCircleInfo, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { useCart } from "../Components/Cart/CartContext";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const { addToCart } = useCart(); // Use o hook do carrinho
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetch("https://backend-production-6806.up.railway.app/backend/consultas/categories/tech.php")
@@ -96,7 +96,10 @@ const Product = () => {
 
                 <h2 className="product-text">{product.name}</h2>
 
-                <p className="price-text">
+                <p
+                  className="price-text"
+                  data-testid={`product-price-${toKebabCase(product.name)}`} // Aplica o data-testid ao preço
+                >
                   {parseFloat(product.amount).toFixed(2)} {product.currency_symbol}
                 </p>
 
