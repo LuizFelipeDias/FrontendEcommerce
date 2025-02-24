@@ -4,14 +4,14 @@ import { useCart } from "../Components/Cart/CartContext";
 import "./productSelected.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Swiper, SwiperSlide } from 'swiper/react'; // Import Swiper and SwiperSlide
-import 'swiper/css'; // Basic Swiper styles
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const ProductSelected = () => {
   const { id } = useParams();
   const location = useLocation();
   const product = location.state?.product;
-  const { addToCart, openCart } = useCart(); // Certifique-se de que openCart está sendo importado
+  const { addToCart, openCart } = useCart(); // Adicione openCart ao destructuring
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [isAllAttributesSelected, setIsAllAttributesSelected] = useState(false);
   const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300");
@@ -81,9 +81,9 @@ const ProductSelected = () => {
     <div className="product-container">
       <div className="swiper">
         <Swiper
-          direction="vertical" // Define a direção vertical
-          slidesPerView={5} // Exibe 5 slides por vez
-          spaceBetween={12} // Espaço entre os slides
+          direction="vertical"
+          slidesPerView={5}
+          spaceBetween={12}
           className="swiper-container"
         >
           {product?.images?.map((image, index) => (
@@ -92,7 +92,7 @@ const ProductSelected = () => {
                 src={image}
                 alt={`Thumbnail ${index + 1}`}
                 className="thumbnail-image"
-                onClick={() => handleThumbnailClick(image)} // Troca a imagem principal ao clicar
+                onClick={() => handleThumbnailClick(image)}
               />
             </SwiperSlide>
           ))}
@@ -101,7 +101,7 @@ const ProductSelected = () => {
       <div className="product-image-container">
         <img
           className="product-image"
-          src={mainImage} // Usa a imagem principal atual
+          src={mainImage}
           alt={product?.name}
           data-testid='product-gallery'
         />
@@ -115,8 +115,7 @@ const ProductSelected = () => {
               <h4 className="attribute-title">{name}:</h4>
               <div className="attribute-buttons">
                 {attributes.map((attr, idx) => {
-                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value}`; // Mantém o #
-                  console.log("Renderizando botão com data-testid:", testId); // Depuração
+                  const testId = `product-attribute-${name.toLowerCase()}-${attr.value}`;
                   return (
                     <button
                       key={idx}
@@ -125,7 +124,7 @@ const ProductSelected = () => {
                       }`}
                       style={name.toLowerCase() === "color" ? { backgroundColor: attr.value } : {}}
                       onClick={() => handleSelectAttribute(name, attr.value)}
-                      data-testid={testId} // Adiciona data-testid
+                      data-testid={testId}
                     >
                       {name.toLowerCase() !== "color" && attr.value}
                     </button>
@@ -149,7 +148,7 @@ const ProductSelected = () => {
               className={`add-to-cart ${!isAllAttributesSelected ? "disabled" : ""}`}
               onClick={handleAddToCart}
               disabled={!isAllAttributesSelected}
-              data-testid='add-to-cart' // Adiciona data-testid
+              data-testid='add-to-cart'
             >
               ADD TO CART <FontAwesomeIcon icon={faCartShopping} /> <FontAwesomeIcon icon={faPlus} />
             </button>
@@ -161,7 +160,7 @@ const ProductSelected = () => {
           <p className="text-out-of-stock">This product is out of stock.</p>
         )}
 
-        <p className="product-description"  data-testid='product-description'>
+        <p className="product-description" data-testid='product-description'>
           {product?.description || "Nenhuma descrição disponível."}
         </p>
       </div>
