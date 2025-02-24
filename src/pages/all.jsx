@@ -62,7 +62,7 @@ const Product = () => {
       uniqueId,
       name: product.name,
       image: product.images?.[0] || "https://via.placeholder.com/300",
-      price: parseFloat(product.amount || 0).toFixed(2),
+      price: parseFloat(product.amount || 0).toFixed(2), // Formata o preço com duas casas decimais
       currency: product.currency_symbol,
       attributes: { ...selectedAttributes },
       availableAttributes,
@@ -96,8 +96,11 @@ const Product = () => {
 
                 <h2 className="product-text">{product.name}</h2>
 
-                <p className="price-text">
-                  {parseFloat(product.amount).toFixed(2)} {product.currency_symbol}
+                <p
+                  className="price-text"
+                  data-testid={`product-price-${toKebabCase(product.name)}`} // Aplica o data-testid ao preço
+                >
+                  {parseFloat(product.amount).toFixed(2)} {/* Formata o preço com duas casas decimais */}
                 </p>
 
                 <div className="info-and-cart">
