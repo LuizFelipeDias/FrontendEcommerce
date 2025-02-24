@@ -22,16 +22,12 @@ const Product = () => {
       .catch(() => setProducts([]));
   }, []);
 
-  // Função para normalizar nomes para serem usados como `data-testid`
   const toKebabCase = (str) =>
-    str
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-") // Remove caracteres especiais
-      .replace(/^-+|-+$/g, ""); // Remove hífens extras
+    str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
   const handleProductClick = (product, event) => {
     if (event.target.tagName === "BUTTON" || event.target.closest(".quick-buy-btn")) {
-      return; // Evita que clique no botão dispare a navegação
+      return;
     }
     navigate(`/product/${product.id}`, { state: { product } });
   };
@@ -62,7 +58,7 @@ const Product = () => {
       uniqueId,
       name: product.name,
       image: product.images?.[0] || "https://via.placeholder.com/300",
-      price: parseFloat(product.amount || 0).toFixed(2), // Formata o preço com duas casas decimais
+      price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
       attributes: { ...selectedAttributes },
       availableAttributes,
@@ -78,50 +74,50 @@ const Product = () => {
       <div className="page-inner-content">
         <div className="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {products.length > 0 ? (
-            products.map((product) => (
-              <div
-                key={product.id}
-                data-testid={`product-${toKebabCase(product.name)}`} // Aplica o data-testid ao card do produto
-                className="product border rounded-lg p-4 shadow-md cursor-pointer relative product-card"
-                onClick={(e) => handleProductClick(product, e)}
-              >
-                <div className={`image ${product.in_stock === 0 ? "out-of-stock" : ""}`}>
-                  {product.images?.length > 0 ? (
-                    <img src={product.images[0]} alt={product.name} className="w-full h-40 object-cover rounded" />
-                  ) : (
-                    <p className="text-center text-gray-500">Sem imagem disponível</p>
-                  )}
-                  {product.in_stock === 0 && <div className="out-of-stock-label">Out of Stock</div>}
-                </div>
-
-                <h2 className="product-text">{product.name}</h2>
-
-                <p
-                  className="price-text"
-                  data-testid={`product-price-${toKebabCase(product.name)}`} // Aplica o data-testid ao preço
+            products.map((product) => {
+              const productTestId = `product-${toKebabCase(product.name)}`;
+              return (
+                <div
+                  key={product.id}
+                  data-testid={productTestId}
+                  className="product border rounded-lg p-4 shadow-md cursor-pointer relative product-card"
+                  onClick={(e) => handleProductClick(product, e)}
                 >
-                  {parseFloat(product.amount).toFixed(2)} {/* Formata o preço com duas casas decimais */}
-                </p>
+                  <div className={`image ${product.in_stock === 0 ? "out-of-stock" : ""}`}>
+                    {product.images?.length > 0 ? (
+                      <img src={product.images[0]} alt={product.name} className="w-full h-40 object-cover rounded" />
+                    ) : (
+                      <p className="text-center text-gray-500">Sem imagem disponível</p>
+                    )}
+                    {product.in_stock === 0 && <div className="out-of-stock-label">Out of Stock</div>}
+                  </div>
 
-                <div className="info-and-cart">
-                  <button className="product-info">
-                    See Details <FontAwesomeIcon icon={faCircleInfo} />
-                  </button>
+                  <h2 className="product-text">{product.name}</h2>
+
+                  <p className="price-text">
+                    {parseFloat(product.amount).toFixed(2)}
+                  </p>
+
+                  <div className="info-and-cart">
+                    <button className="product-info">
+                      See Details <FontAwesomeIcon icon={faCircleInfo} />
+                    </button>
+                  </div>
+
+                  {product.in_stock > 0 && (
+                    <button
+                      className="quick-buy-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToCart(product);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faCartShopping} />
+                    </button>
+                  )}
                 </div>
-
-                {product.in_stock > 0 && (
-                  <button
-                    className="quick-buy-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(product);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} />
-                  </button>
-                )}
-              </div>
-            ))
+              );
+            })
           ) : (
             <p>Carregando produtos...</p>
           )}
