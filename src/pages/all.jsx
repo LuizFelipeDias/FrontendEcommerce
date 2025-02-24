@@ -22,7 +22,7 @@ const Product = () => {
       .catch(() => setProducts([]));
   }, []);
 
- // Função para normalizar nomes para serem usados como `data-testid`
+  // Função para normalizar nomes para serem usados como `data-testid`
   const toKebabCase = (str) =>
     str
       .toLowerCase()
@@ -81,7 +81,7 @@ const Product = () => {
             products.map((product) => (
               <div
                 key={product.id}
-                data-testid={`product-${toKebabCase(product.name)}`}
+                data-testid={`product-${toKebabCase(product.name)}`} // Aplica o data-testid ao card do produto
                 className="product border rounded-lg p-4 shadow-md cursor-pointer relative product-card"
                 onClick={(e) => handleProductClick(product, e)}
               >
