@@ -128,4 +128,4 @@ const Product = () => {
   );
 };
 
-export default Product; //comentario
+export default Product;
