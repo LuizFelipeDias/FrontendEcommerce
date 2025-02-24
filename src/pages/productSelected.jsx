@@ -11,10 +11,10 @@ const ProductSelected = () => {
   const { id } = useParams();
   const location = useLocation();
   const product = location.state?.product;
-  const { addToCart } = useCart();
+  const { addToCart, openCart } = useCart(); // Certifique-se de que openCart está sendo importado
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [isAllAttributesSelected, setIsAllAttributesSelected] = useState(false);
-  const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300"); // Estado para a imagem principal
+  const [mainImage, setMainImage] = useState(product?.images?.[0] || "https://via.placeholder.com/300");
 
   // Verifica se todos os atributos foram selecionados
   useEffect(() => {
@@ -38,13 +38,11 @@ const ProductSelected = () => {
   const handleAddToCart = () => {
     if (!product || !isAllAttributesSelected) return;
 
-    // Gera o uniqueId com base nos atributos selecionados
     const uniqueId = `${product.id}-${Object.entries(selectedAttributes)
-      .sort((a, b) => a[0].localeCompare(b[0])) // Ordena os atributos por nome
-      .map(([key, value]) => `${key}:${value}`) // Formata como "nome:valor"
-      .join("-")}`; // Junta tudo com "-"
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([key, value]) => `${key}:${value}`)
+      .join("-")}`;
 
-    // Cria um objeto com os atributos disponíveis
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
@@ -55,11 +53,11 @@ const ProductSelected = () => {
       id: product.id,
       uniqueId,
       name: product.name,
-      image: mainImage, // Usa a imagem principal atual
+      image: mainImage,
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes }, // Copia os atributos selecionados
-      availableAttributes, // Inclui os atributos disponíveis
+      attributes: { ...selectedAttributes },
+      availableAttributes,
       quantity: 1,
     };
 
