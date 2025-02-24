@@ -102,7 +102,9 @@ const Header = () => {
       <div className="cart-container">
         <button onClick={handleCartClick} className="cart-btn" data-testid="cart-btn">
           <FontAwesomeIcon icon={faCartShopping} className="cart" />
-          <div className="products-count">{cartItems.length}</div>
+          <div className="products-count" data-testid="cart-item-count">
+            {cartItems.length} item(s) {/* Exibe o número de itens no carrinho */}
+          </div>
         </button>
 
         <div className={`cart-modal ${isCartOpen ? "active" : ""}`} data-testid="cart-overlay" style={{ pointerEvents: isCartOpen ? "auto" : "none" }}> 

@@ -34,20 +34,21 @@ const ProductSelected = () => {
     }));
   };
 
+  // Função para adicionar ao carrinho
   const handleAddToCart = () => {
     if (!product || !isAllAttributesSelected) return;
-  
+
     const uniqueId = `${product.id}-${Object.entries(selectedAttributes)
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([key, value]) => `${key}:${value}`)
       .join("-")}`;
-  
+
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
       return acc;
     }, {});
-  
+
     const cartItem = {
       id: product.id,
       uniqueId,
@@ -59,7 +60,7 @@ const ProductSelected = () => {
       availableAttributes,
       quantity: 1,
     };
-  
+
     addToCart(cartItem);
     openCart(); // Abre o carrinho após adicionar o produto
     console.log("Produto adicionado ao carrinho:", cartItem);
