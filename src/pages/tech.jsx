@@ -22,8 +22,7 @@ const Product = () => {
       .catch(() => setProducts([]));
   }, []);
 
-  const toKebabCase = (str) =>
-    str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
 
   const handleProductClick = (product, event) => {
     if (event.target.tagName === "BUTTON" || event.target.closest(".quick-buy-btn")) {
@@ -110,6 +109,7 @@ const Product = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         handleAddToCart(product);
+                        console.log("Produto:", product.name, "Preço:", product.amount);
                       }}
                     >
                       <FontAwesomeIcon icon={faCartShopping} />
