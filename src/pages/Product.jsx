@@ -98,7 +98,6 @@ const Product = () => {
 
                 <p
                   className="price-text"
-                  data-testid={`product-price-${toKebabCase(product.name)}`} // Aplica o data-testid ao preço
                 >
                   {parseFloat(product.amount).toFixed(2)} {/* Formata o preço com duas casas decimais */}
                 </p>
