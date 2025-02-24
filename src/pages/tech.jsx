@@ -26,21 +26,25 @@ const Product = () => {
     navigate(`/product/${product.id}`, { state: { product } });
   };
 
+  // Função para adicionar ao carrinho com os primeiros atributos selecionados
   const handleAddToCart = (product) => {
     if (!product || product.in_stock === 0) return;
 
+    // Seleciona os primeiros valores de cada atributo
     const selectedAttributes = product.attributes?.reduce((acc, attr) => {
       if (!acc[attr.name]) {
-        acc[attr.name] = attr.value;
+        acc[attr.name] = attr.value; // Seleciona o primeiro valor disponível
       }
       return acc;
     }, {});
 
+    // Gera o uniqueId com base nos atributos selecionados
     const uniqueId = `${product.id}-${Object.entries(selectedAttributes || {})
-      .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(([key, value]) => `${key}:${value}`)
-      .join("-")}`;
+      .sort((a, b) => a[0].localeCompare(b[0])) // Ordena os atributos por nome
+      .map(([key, value]) => `${key}:${value}`) // Formata como "nome:valor"
+      .join("-")}`; // Junta tudo com "-"
 
+    // Cria um objeto com os atributos disponíveis
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
@@ -54,12 +58,12 @@ const Product = () => {
       image: product.images?.[0] || "https://via.placeholder.com/300",
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes },
-      availableAttributes,
+      attributes: { ...selectedAttributes }, // Copia os atributos selecionados
+      availableAttributes, // Inclui os atributos disponíveis
       quantity: 1,
     };
 
-    addToCart(cartItem);
+    addToCart(cartItem); // Adiciona ao carrinho
     console.log("Produto adicionado ao carrinho:", cartItem);
   };
 
@@ -99,7 +103,7 @@ const Product = () => {
                     <button
                       className="add-cart"
                       onClick={(e) => {
-                        e.stopPropagation();
+                        e.stopPropagation(); // Impede que o clique no botão propague para o contêiner do produto
                         handleAddToCart(product);
                       }}
                     >
