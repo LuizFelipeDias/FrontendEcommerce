@@ -43,6 +43,7 @@ const ProductSelected = () => {
       .map(([key, value]) => `${key}:${value}`)
       .join("-")}`;
 
+    // Cria um objeto com os atributos disponíveis
     const availableAttributes = product.attributes?.reduce((acc, attr) => {
       acc[attr.name] = acc[attr.name] || [];
       acc[attr.name].push(attr.value);
@@ -56,8 +57,8 @@ const ProductSelected = () => {
       image: mainImage,
       price: parseFloat(product.amount || 0).toFixed(2),
       currency: product.currency_symbol,
-      attributes: { ...selectedAttributes },
-      availableAttributes,
+      attributes: { ...selectedAttributes }, // Copia os atributos selecionado
+      availableAttributes, // Inclui os atributos disponíveis
       quantity: 1,
     };
 

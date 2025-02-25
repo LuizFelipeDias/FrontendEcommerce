@@ -8,11 +8,13 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
+      // Filtra os produtos que têm os mesmos atributos do novo produto
       const matchingItems = prevItems.filter(
         (item) => JSON.stringify(item.attributes) === JSON.stringify(product.attributes)
       );
 
       if (matchingItems.length > 0) {
+        // Se existirem produtos com os mesmos atributos, aumenta a quantidade de cada um
         return prevItems.map((item) =>
           JSON.stringify(item.attributes) === JSON.stringify(product.attributes)
             ? { ...item, quantity: item.quantity + 1 }

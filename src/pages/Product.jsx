@@ -27,9 +27,11 @@ const Product = () => {
     navigate(`/product/${product.id}`, { state: { product } });
   };
 
+  // Função para adicionar ao carrinho com os primeiros atributos selecionados
   const handleAddToCart = (product) => {
     if (!product || product.in_stock === 0) return;
 
+    // Seleciona os primeiros valores de cada atributo
     const selectedAttributes = product.attributes?.reduce((acc, attr) => {
       if (!acc[attr.name]) {
         acc[attr.name] = attr.value;
@@ -37,6 +39,7 @@ const Product = () => {
       return acc;
     }, {});
 
+    // Gera o uniqueId com base nos atributos selecionados
     const uniqueId = `${product.id}-${Object.entries(selectedAttributes || {})
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([key, value]) => `${key}:${value}`)
