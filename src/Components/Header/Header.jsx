@@ -58,10 +58,6 @@ const Header = () => {
     <div className="header">
       <div className={`overlay ${isCartOpen ? "active" : ""}`} onClick={closeCart}></div>
 
-      <div className="logo-container">
-        <Logo />
-      </div>
-
       <nav>
         <ul>
           <li>
