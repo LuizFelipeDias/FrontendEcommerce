@@ -65,7 +65,7 @@ const Header = () => {
               to="/all" 
               data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}
             >
-              all
+              ALL
             </Link>
           </li>
           <li>
@@ -73,7 +73,7 @@ const Header = () => {
               to="/clothes" 
               data-testid={location.pathname === "/clothes" ? "active-category-link" : "category-link"}
             >
-              clothes
+              CLOTHES
             </Link>
           </li>
           <li>
@@ -81,7 +81,7 @@ const Header = () => {
               to="/tech" 
               data-testid={location.pathname === "/tech" ? "active-category-link" : "category-link"}
             >
-              tech
+              TECH
             </Link>
           </li>
         </ul>
@@ -94,7 +94,7 @@ const Header = () => {
               to="/" 
               data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}
             >
-              Home
+              HOME
             </Link>
           </li>
         </ul>
