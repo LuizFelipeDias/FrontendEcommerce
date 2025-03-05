@@ -95,12 +95,6 @@ const Product = () => {
                   {parseFloat(product.amount).toFixed(2)} {product.currency_symbol}
                 </p>
 
-                <div className="info-and-cart">
-                  <button className="product-info">
-                    See Details <FontAwesomeIcon icon={faCircleInfo} />
-                  </button>
-                </div>
-
                 {product.in_stock > 0 && (
                   <button
                     className="quick-buy-btn"
