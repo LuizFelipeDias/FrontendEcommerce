@@ -95,6 +95,17 @@ const Header = () => {
         </ul>
       </nav>
 
+      <nav>
+        <li>
+            <Link 
+              to="/" 
+              data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}
+            >
+              Home
+            </Link>
+          </li>
+      </nav>
+
       <div className="cart-container">
         <button onClick={handleCartClick} className="cart-btn" data-testid="cart-btn">
           <FontAwesomeIcon icon={faCartShopping} className="cart" />
