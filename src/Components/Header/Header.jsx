@@ -62,14 +62,6 @@ const Header = () => {
         <ul>
           <li>
             <Link 
-              to="/" 
-              data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}
-            >
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link 
               to="/all" 
               data-testid={location.pathname === "/all" ? "active-category-link" : "category-link"}
             >
@@ -96,7 +88,8 @@ const Header = () => {
       </nav>
 
       <nav>
-        <li>
+        <ul>
+          <li>
             <Link 
               to="/" 
               data-testid={location.pathname === "/" ? "active-category-link" : "category-link"}
@@ -104,6 +97,7 @@ const Header = () => {
               Home
             </Link>
           </li>
+        </ul>
       </nav>
 
       <div className="cart-container">
