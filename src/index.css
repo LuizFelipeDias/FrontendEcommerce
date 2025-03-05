@@ -33,7 +33,7 @@
   background: white;
   padding: 1rem;
   /*border: 1px solid #ddd;*/
-  border-radius: 8px;
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -135,7 +135,7 @@
 }
 
 .out-of-stock {
-  background-color: gray;
+  background-color: rgb(146, 144, 144);
 }
 .out-of-stock img {
   mix-blend-mode: multiply;
