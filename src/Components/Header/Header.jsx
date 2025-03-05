@@ -4,7 +4,7 @@ import { faSearch, faCartShopping, faPlus, faMinus, faTimes } from "@fortawesome
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../Cart/CartContext";
 import "./Header.css";
-import Logo from "../../assets/Logo";
+
 
 const Header = () => {
   const {
