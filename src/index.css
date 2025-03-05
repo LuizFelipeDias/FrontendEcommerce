@@ -42,8 +42,6 @@
 
 .product::before{
   content: "";
-  position: absolute;
-  inset: 0; /* Ocupa toda a área do elemento */
   border-radius: 8px;
   transition: box-shadow 0.3s ease, border 0.3s ease;
 }
