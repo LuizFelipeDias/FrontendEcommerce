@@ -89,7 +89,7 @@ const Product = () => {
                   {product.in_stock === 0 && <div className="out-of-stock-label">Out of Stock</div>}
                 </div>
 
-                <h2 className="product-text">{product.name}</h2>
+                <p className="product-text">{product.name}</p>
 
                 <p className="price-text">
                   {parseFloat(product.amount).toFixed(2)} {product.currency_symbol}

@@ -158,7 +158,7 @@ const ProductSelected = () => {
               disabled={!isAllAttributesSelected}
               data-testid='add-to-cart'
             >
-              ADD TO CART <FontAwesomeIcon icon={faCartShopping} /> <FontAwesomeIcon icon={faPlus} />
+              ADD TO CART
             </button>
             {!isAllAttributesSelected && (
               <p className="cart-error">Please select all attributes before adding to cart.</p>
